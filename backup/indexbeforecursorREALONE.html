@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossPoster - Кросс-постинг в Telegram и VK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Карточки */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        /* Формы */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4a6cf7;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Кнопки */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a6cf7 0%, #6c5ce7 100%);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74,108,247,0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* Статусы */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Платформы */
+        .platform-selector {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .platform-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .platform-option.selected {
+            background: #4a6cf7;
+            color: white;
+        }
+
+        .platform-option input {
+            width: auto;
+            margin: 0;
+        }
+
+        /* История */
+        .post-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #4a6cf7;
+        }
+
+        .post-content {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+            flex-wrap: wrap;
+        }
+
+        /* Соцсети */
+        .social-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .social-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .social-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .telegram-icon { color: #26a5e4; }
+        .vk-icon { color: #4680c2; }
+
+        /* Алерты */
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Сетка */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4a6cf7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- АВТОРИЗАЦИЯ (показывается, если не залогинены) -->
+        <div id="authSection">
+            <div class="card">
+                <h2 class="text-center">📝 CrossPoster</h2>
+                <p class="text-center" style="margin-bottom: 20px; color: #666;">Публикуйте посты одновременно в Telegram и VK</p>
+                
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()">Войти</button>
+                    <p class="text-center" style="margin-top: 15px;">
+                        Нет аккаунта? <a href="#" onclick="showRegister()">Зарегистрироваться</a>
+                    </p>
+                    <div id="loginMessage"></div>
+                </div>
+
+                <div id="registerForm" class="hidden">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" id="registerPassword" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" onclick="register()">Зарегистрироваться</button>
+                    <p class="text-center" style="margin-top: 15px;">
+                        <a href="#" onclick="showLogin()">Вернуться ко входу</a>
+                    </p>
+                    <div id="registerMessage"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОСНОВНОЙ ИНТЕРФЕЙС (после входа) -->
+        <div id="mainSection" class="hidden">
+            <!-- Навигация -->
+            <div class="nav">
+                <div class="logo">✈️ CrossPoster</div>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
+            </div>
+
+            <div class="grid-2">
+                <!-- Левая колонка: Создание поста -->
+                <div>
+                    <div class="card">
+                        <h2>✍️ Создать пост</h2>
+                        <div class="form-group">
+                            <textarea id="postContent" placeholder="Введите текст поста..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Куда публиковать:</label>
+                            <div class="platform-selector">
+                                <label class="platform-option">
+                                    <input type="checkbox" id="sendTelegram" checked> 📨 Telegram
+                                </label>
+                                <label class="platform-option">
+                                    <input type="checkbox" id="sendVK" checked> 📘 VKontakte
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="sendPost()">🚀 Опубликовать</button>
+                        <div id="postMessage"></div>
+                    </div>
+
+                    <!-- История постов -->
+                    <div class="card">
+                        <h2>📜 История постов</h2>
+                        <div id="historyList">
+                            <div class="text-center" style="color: #888;">Загрузка...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: Настройки соцсетей -->
+                <div>
+                    <!-- Telegram настройки -->
+                    <div class="card">
+                        <h2>📨 Telegram</h2>
+                        <div id="telegramStatus"></div>
+                        <div id="telegramConnectForm">
+                            <div class="form-group">
+                                <label>Ссылка на канал</label>
+                                <input type="text" id="telegramChannel" placeholder="https://t.me/ваш_канал">
+                                <small style="color: #888;">Бот должен быть администратором канала</small>
+                            </div>
+                            <button class="btn btn-primary" onclick="connectTelegram()">Подключить Telegram</button>
+                        </div>
+                        <div id="telegramMessage"></div>
+                    </div>
+
+                    <!-- VK настройки -->
+                    <div class="card">
+                        <h2>📘 VKontakte</h2>
+                        <div id="vkStatus"></div>
+                        <div id="vkConnectForm">
+                            <div class="form-group">
+                                <label>Получить токен</label>
+                                <button class="btn btn-secondary btn-sm" onclick="openVKTokenPage()">Открыть vkhost.github.io</button>
+                                <small style="display: block; margin-top: 8px; color: #888;">Получите токен и вставьте ниже</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Токен доступа</label>
+                                <input type="text" id="vkToken" placeholder="vk1.a.xxxxxxxx...">
+                            </div>
+                            <button class="btn btn-primary" onclick="connectVK()">Подключить VK</button>
+                        </div>
+                        <div id="vkMessage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Глобальные переменные
+        let userId = null;
+
+        // ========== АВТОРИЗАЦИЯ ==========
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        async function register() {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const messageDiv = document.getElementById('registerMessage');
+
+            if (!email || !password) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Заполните все поля</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">Регистрация успешна! Теперь войдите.</div>';
+                    setTimeout(() => showLogin(), 1500);
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (!email || !password) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Заполните все поля</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    userId = data.data.user_id;
+                    document.getElementById('authSection').classList.add('hidden');
+                    document.getElementById('mainSection').classList.remove('hidden');
+                    loadTelegramStatus();
+                    loadVKStatus();
+                    loadHistory();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        function logout() {
+            userId = null;
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ========== TELEGRAM ==========
+        async function loadTelegramStatus() {
+            try {
+                const response = await fetch('/api/connect/telegram/status');
+                const data = await response.json();
+                const statusDiv = document.getElementById('telegramStatus');
+
+                if (data.data && data.data.connected) {
+                    statusDiv.innerHTML = '<div class="alert alert-success">✅ Подключен: ' + data.data.channel_link + '</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert alert-error">❌ Не подключен</div>';
+                }
+            } catch (error) {
+                console.error('Error loading Telegram status:', error);
+            }
+        }
+
+        async function connectTelegram() {
+            const channelLink = document.getElementById('telegramChannel').value;
+            const messageDiv = document.getElementById('telegramMessage');
+
+            if (!channelLink) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите ссылку на канал</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Подключение...</div>';
+
+            try {
+                const response = await fetch('/api/connect/telegram', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channel_link: channelLink })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">✅ ' + data.message + '</div>';
+                    document.getElementById('telegramChannel').value = '';
+                    loadTelegramStatus();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">❌ ' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        // ========== VK ==========
+        function openVKTokenPage() {
+            window.open('https://vkhost.github.io/', '_blank', 'width=600,height=600');
+        }
+
+        async function loadVKStatus() {
+            try {
+                const response = await fetch('/api/connect/vk/status');
+                const data = await response.json();
+                const statusDiv = document.getElementById('vkStatus');
+
+                if (data.data && data.data.connected) {
+                    statusDiv.innerHTML = '<div class="alert alert-success">✅ Подключен: ' + (data.data.vk_user_name || 'VK') + '</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert alert-error">❌ Не подключен</div>';
+                }
+            } catch (error) {
+                console.error('Error loading VK status:', error);
+            }
+        }
+
+        async function connectVK() {
+            const token = document.getElementById('vkToken').value;
+            const messageDiv = document.getElementById('vkMessage');
+
+            if (!token) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите токен</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Подключение...</div>';
+
+            try {
+                const response = await fetch('/api/connect/vk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ access_token: token })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">✅ ' + data.message + '</div>';
+                    document.getElementById('vkToken').value = '';
+                    loadVKStatus();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">❌ ' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        // ========== ПОСТЫ ==========
+        async function sendPost() {
+            const content = document.getElementById('postContent').value;
+            const sendTelegram = document.getElementById('sendTelegram').checked;
+            const sendVK = document.getElementById('sendVK').checked;
+            const messageDiv = document.getElementById('postMessage');
+
+            if (!content) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите текст поста</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Отправка...</div>';
+
+            try {
+                const response = await fetch('/api/post', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    let results = '';
+                    if (data.data.telegram && data.data.telegram.success) {
+                        results += '✅ Telegram: успешно<br>';
+                    } else if (data.data.telegram && !data.data.telegram.success) {
+                        results += '❌ Telegram: ' + data.data.telegram.error + '<br>';
+                    }
+                    if (data.data.vk && data.data.vk.success) {
+                        results += '✅ VK: успешно<br>';
+                    } else if (data.data.vk && !data.data.vk.success) {
+                        results += '❌ VK: ' + data.data.vk.error + '<br>';
+                    }
+                    messageDiv.innerHTML = '<div class="alert alert-success">' + results + '</div>';
+                    document.getElementById('postContent').value = '';
+                    loadHistory();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">❌ ' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        // ========== ИСТОРИЯ ==========
+        async function loadHistory() {
+            try {
+                const response = await fetch('/api/history');
+                const data = await response.json();
+                const historyDiv = document.getElementById('historyList');
+
+                if (data.status === 'success' && data.data.length > 0) {
+                    historyDiv.innerHTML = data.data.map(post => `
+                        <div class="post-item">
+                            <div class="post-content">${escapeHtml(post.content).substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                            <div class="post-meta">
+                                <span>📅 ${new Date(post.created_at).toLocaleString('ru-RU')}</span>
+                                <span class="status-badge status-${post.telegram_status === 'published' ? 'success' : (post.telegram_status === 'error' ? 'error' : 'pending')}">
+                                    📨 Telegram: ${post.telegram_status === 'published' ? '✅' : (post.telegram_status === 'error' ? '❌' : '⏳')}
+                                </span>
+                                <span class="status-badge status-${post.vk_status === 'published' ? 'success' : (post.vk_status === 'error' ? 'error' : 'pending')}">
+                                    📘 VK: ${post.vk_status === 'published' ? '✅' : (post.vk_status === 'error' ? '❌' : '⏳')}
+                                </span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    historyDiv.innerHTML = '<div class="text-center" style="color: #888;">Нет постов. Создайте первый!</div>';
+                }
+            } catch (error) {
+                document.getElementById('historyList').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

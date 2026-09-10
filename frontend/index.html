@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossPoster - Кросс-постинг в Telegram и Discord</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #000;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            border: 1px solid #000;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #000;
+            font-size: 16px;
+            font-family: inherit;
+            background: #fff;
+            color: #000;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: 1px solid #000;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #000;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        .btn-discord {
+            background: #5865F2;
+            color: #fff;
+            border-color: #5865F2;
+        }
+
+        .btn-discord:hover {
+            background: #4752c4;
+            border-color: #4752c4;
+            color: #fff;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: #fff;
+            border-color: #4CAF50;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+            border-color: #45a049;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: #fff;
+            border-color: #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+            border-color: #d32f2f;
+            color: #fff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border: 1px solid #000;
+            font-size: 12px;
+        }
+
+        .platform-selector {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .platform-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .platform-option input {
+            width: auto;
+            margin: 0;
+        }
+
+        .post-item {
+            border: 1px solid #000;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .post-content {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            flex-wrap: wrap;
+        }
+
+        .alert {
+            padding: 12px;
+            border: 1px solid #000;
+            margin-top: 10px;
+        }
+
+        .alert-success {
+            border-color: #4CAF50;
+            background: #f0f8f0;
+        }
+
+        .alert-error {
+            border-color: #f44336;
+            background: #fdf0f0;
+        }
+
+        .alert-info {
+            border-color: #2196F3;
+            background: #f0f7ff;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .muted {
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        a {
+            color: #000;
+        }
+
+        small {
+            display: block;
+            margin-top: 6px;
+            opacity: 0.6;
+            font-size: 13px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ccc;
+            border-top: 1px solid #000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #000;
+            flex-wrap: wrap;
+        }
+
+        .app-header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: auto;
+        }
+
+        .app-header a {
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .app-header a:hover {
+            border-bottom-color: #000;
+        }
+
+        .app-header .logout-btn {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+            padding: 6px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .steps {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+
+        .steps ol {
+            margin-left: 20px;
+            padding: 10px 0;
+        }
+
+        .steps li {
+            margin-bottom: 8px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .btn-group .btn {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="authSection">
+            <div class="card">
+                <h2 class="text-center">CrossPoster</h2>
+                <p class="text-center muted" style="margin-bottom: 20px;">Публикуйте посты одновременно в Telegram и Discord</p>
+                
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()">Войти</button>
+                    <p class="text-center" style="margin-top: 15px;">
+                        Нет аккаунта? <a href="#" onclick="showRegister()">Зарегистрироваться</a>
+                    </p>
+                    <div id="loginMessage"></div>
+                </div>
+
+                <div id="registerForm" class="hidden">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" id="registerPassword" placeholder="••••••••">
+                    </div>
+                    <button class="btn btn-primary" onclick="register()">Зарегистрироваться</button>
+                    <p class="text-center" style="margin-top: 15px;">
+                        <a href="#" onclick="showLogin()">Вернуться ко входу</a>
+                    </p>
+                    <div id="registerMessage"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mainSection" class="hidden">
+            <div class="app-header">
+                <span class="logo">CrossPoster</span>
+                <a href="#" onclick="showHistoryTab()">История постов</a>
+                <a href="#" onclick="showPostTab()">Опубликовать пост</a>
+                <a href="#" onclick="showAccountTab()">Аккаунт</a>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
+            </div>
+
+            <div id="tabContent">
+                <div id="postTab" class="grid-2">
+                    <div>
+                        <div class="card">
+                            <h2>Создать пост</h2>
+                            <div class="form-group">
+                                <textarea id="postContent" placeholder="Введите текст поста..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Куда публиковать:</label>
+                                <div class="platform-selector">
+                                    <label class="platform-option">
+                                        <input type="checkbox" id="sendTelegram" checked> Telegram
+                                    </label>
+                                    <label class="platform-option">
+                                        <input type="checkbox" id="sendDiscord" checked> Discord
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="sendPost()">Опубликовать</button>
+                            <div id="postMessage"></div>
+                        </div>
+
+                        <div class="card">
+                            <h2>История постов</h2>
+                            <div id="historyList">
+                                <div class="text-center muted">Загрузка...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="card">
+                            <h2>Telegram</h2>
+                            <div id="telegramStatus"></div>
+                            <div id="telegramConnectForm">
+                                <div class="form-group">
+                                    <label>Ссылка на канал</label>
+                                    <input type="text" id="telegramChannel" placeholder="https://t.me/ваш_канал">
+                                    <small>Бот должен быть администратором канала</small>
+                                </div>
+                                <button class="btn btn-primary" onclick="connectTelegram()">Подключить Telegram</button>
+                            </div>
+                            <div id="telegramMessage"></div>
+                        </div>
+
+                        <div class="card">
+                            <h2>Discord</h2>
+                            <div id="discordStatus"></div>
+                            
+                            <div class="steps" style="background: #eef0ff; border-color: #5865F2;">
+                                <strong>Шаг 1. Добавьте бота на сервер</strong>
+                                <p style="margin: 10px 0;">Нажмите кнопку ниже, выберите свой сервер и авторизуйте бота.</p>
+                                <a href="https://discord.com/oauth2/authorize?client_id=1547214636405755914&permissions=274878023680&integration_type=0&scope=bot" 
+                                   target="_blank" 
+                                   class="btn btn-discord" 
+                                   style="display: inline-block; text-decoration: none; text-align: center;">
+                                    🤖 Добавить бота на сервер
+                                </a>
+                            </div>
+
+                            <div class="steps">
+                                <strong>Шаг 2. Получите ID канала:</strong>
+                                <ol>
+                                    <li>В Discord включите <strong>Режим разработчика</strong> (Настройки → Дополнительно)</li>
+                                    <li>Кликните правой кнопкой по каналу → <strong>Копировать ID</strong></li>
+                                    <li>Вставьте ID в поле ниже</li>
+                                    <li>Нажмите <strong>"Подключить Discord"</strong></li>
+                                </ol>
+                            </div>
+
+                            <div id="discordConnectForm">
+                                <div class="form-group">
+                                    <label>ID канала</label>
+                                    <input type="text" id="discordChannelId" placeholder="123456789012345678">
+                                    <small>ID канала (18+ цифр), куда будут публиковаться посты</small>
+                                </div>
+                                <button class="btn btn-discord" onclick="connectDiscord()">Подключить Discord</button>
+                            </div>
+                            <div id="discordMessage"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="historyTab" class="hidden">
+                    <div class="card">
+                        <h2>История постов</h2>
+                        <div id="historyListFull">
+                            <div class="text-center muted">Загрузка...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="accountTab" class="hidden">
+                    <div class="card">
+                        <h2>Информация об аккаунте</h2>
+                        <p><strong>Email:</strong> <span id="accountEmail">—</span></p>
+                        <p><strong>ID пользователя:</strong> <span id="accountUserId">—</span></p>
+                        <p><strong>Статус:</strong> <span id="accountStatus">Активен</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userId = null;
+        let currentUserEmail = '';
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        async function register() {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const messageDiv = document.getElementById('registerMessage');
+
+            if (!email || !password) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Заполните все поля</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">Регистрация успешна! Выполняется вход...</div>';
+                    await autoLogin(email, password);
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        async function autoLogin(email, password) {
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    userId = data.data.user_id;
+                    currentUserEmail = email;
+                    document.getElementById('authSection').classList.add('hidden');
+                    document.getElementById('mainSection').classList.remove('hidden');
+                    document.getElementById('accountEmail').textContent = email;
+                    document.getElementById('accountUserId').textContent = userId;
+                    loadTelegramStatus();
+                    loadDiscordStatus();
+                    loadHistory();
+                    loadHistoryFull();
+                    showPostTab();
+                } else {
+                    document.getElementById('loginMessage').innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                document.getElementById('loginMessage').innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (!email || !password) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Заполните все поля</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    userId = data.data.user_id;
+                    currentUserEmail = email;
+                    document.getElementById('authSection').classList.add('hidden');
+                    document.getElementById('mainSection').classList.remove('hidden');
+                    document.getElementById('accountEmail').textContent = email;
+                    document.getElementById('accountUserId').textContent = userId;
+                    loadTelegramStatus();
+                    loadDiscordStatus();
+                    loadHistory();
+                    loadHistoryFull();
+                    showPostTab();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        function logout() {
+            userId = null;
+            currentUserEmail = '';
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showPostTab() {
+            document.getElementById('postTab').classList.remove('hidden');
+            document.getElementById('historyTab').classList.add('hidden');
+            document.getElementById('accountTab').classList.add('hidden');
+        }
+
+        function showHistoryTab() {
+            document.getElementById('postTab').classList.add('hidden');
+            document.getElementById('historyTab').classList.remove('hidden');
+            document.getElementById('accountTab').classList.add('hidden');
+            loadHistoryFull();
+        }
+
+        function showAccountTab() {
+            document.getElementById('postTab').classList.add('hidden');
+            document.getElementById('historyTab').classList.add('hidden');
+            document.getElementById('accountTab').classList.remove('hidden');
+            document.getElementById('accountEmail').textContent = currentUserEmail || '—';
+            document.getElementById('accountUserId').textContent = userId || '—';
+        }
+
+        // ========== TELEGRAM ==========
+
+        async function loadTelegramStatus() {
+            try {
+                const response = await fetch('/api/connect/telegram/status');
+                const data = await response.json();
+                const statusDiv = document.getElementById('telegramStatus');
+
+                if (data.data && data.data.connected) {
+                    statusDiv.innerHTML = '<div class="alert alert-success">✅ Подключен: ' + data.data.channel_link + '</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert">❌ Не подключен</div>';
+                }
+            } catch (error) {
+                console.error('Error loading Telegram status:', error);
+            }
+        }
+
+        async function connectTelegram() {
+            const channelLink = document.getElementById('telegramChannel').value;
+            const messageDiv = document.getElementById('telegramMessage');
+
+            if (!channelLink) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите ссылку на канал</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Подключение...</div>';
+
+            try {
+                const response = await fetch('/api/connect/telegram', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channel_link: channelLink })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">✅ ' + data.message + '</div>';
+                    document.getElementById('telegramChannel').value = '';
+                    loadTelegramStatus();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">❌ ' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">❌ Ошибка соединения</div>';
+            }
+        }
+
+        // ========== DISCORD ==========
+
+        async function loadDiscordStatus() {
+            try {
+                const response = await fetch('/api/connect/discord/status');
+                const data = await response.json();
+                const statusDiv = document.getElementById('discordStatus');
+
+                if (data.data && data.data.connected) {
+                    statusDiv.innerHTML = '<div class="alert alert-success">✅ Подключен: канал ' + data.data.channel_id + '</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert">❌ Не подключен</div>';
+                }
+            } catch (error) {
+                console.error('Error loading Discord status:', error);
+            }
+        }
+
+        async function connectDiscord() {
+            const channelId = document.getElementById('discordChannelId').value.trim();
+            const messageDiv = document.getElementById('discordMessage');
+
+            if (!channelId) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите ID канала</div>';
+                return;
+            }
+
+            if (!/^\d+$/.test(channelId)) {
+                messageDiv.innerHTML = '<div class="alert alert-error">ID канала должен содержать только цифры</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Подключение...</div>';
+
+            try {
+                const response = await fetch('/api/connect/discord', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channel_id: channelId })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    messageDiv.innerHTML = '<div class="alert alert-success">✅ ' + data.message + '</div>';
+                    document.getElementById('discordChannelId').value = '';
+                    loadDiscordStatus();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">❌ ' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">❌ Ошибка соединения</div>';
+            }
+        }
+
+        // ========== POST ==========
+
+        async function sendPost() {
+            const content = document.getElementById('postContent').value;
+            const sendTelegram = document.getElementById('sendTelegram').checked;
+            const sendDiscord = document.getElementById('sendDiscord').checked;
+            const messageDiv = document.getElementById('postMessage');
+
+            if (!content) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Введите текст поста</div>';
+                return;
+            }
+
+            if (!sendTelegram && !sendDiscord) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Выберите хотя бы одну платформу</div>';
+                return;
+            }
+
+            messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Отправка...</div>';
+
+            try {
+                const response = await fetch('/api/post', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    let results = '';
+                    if (data.data.telegram && data.data.telegram.success) {
+                        results += '✅ Telegram: успешно<br>';
+                    } else if (data.data.telegram && !data.data.telegram.success) {
+                        results += '❌ Telegram: ' + data.data.telegram.error + '<br>';
+                    }
+                    if (data.data.discord && data.data.discord.success) {
+                        results += '✅ Discord: успешно<br>';
+                    } else if (data.data.discord && !data.data.discord.success) {
+                        results += '❌ Discord: ' + data.data.discord.error + '<br>';
+                    }
+                    messageDiv.innerHTML = '<div class="alert">' + results + '</div>';
+                    document.getElementById('postContent').value = '';
+                    loadHistory();
+                    loadHistoryFull();
+                } else {
+                    messageDiv.innerHTML = '<div class="alert alert-error">' + data.message + '</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="alert alert-error">Ошибка соединения</div>';
+            }
+        }
+
+        // ========== HISTORY ==========
+
+        function statusLabel(status) {
+            if (status === 'published') return '✅ опубликовано';
+            if (status === 'error') return '❌ ошибка';
+            return '⏳ ожидание';
+        }
+
+        async function loadHistory() {
+            try {
+                const response = await fetch('/api/history');
+                const data = await response.json();
+                const historyDiv = document.getElementById('historyList');
+
+                if (data.status === 'success' && data.data.length > 0) {
+                    historyDiv.innerHTML = data.data.map(post => `
+                        <div class="post-item">
+                            <div class="post-content">${escapeHtml(post.content).substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                            <div class="post-meta">
+                                <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
+                                <span class="status-badge">Telegram: ${statusLabel(post.telegram_status)}</span>
+                                <span class="status-badge">Discord: ${statusLabel(post.discord_status)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    historyDiv.innerHTML = '<div class="text-center muted">Нет постов. Создайте первый!</div>';
+                }
+            } catch (error) {
+                document.getElementById('historyList').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
+            }
+        }
+
+        async function loadHistoryFull() {
+            try {
+                const response = await fetch('/api/history');
+                const data = await response.json();
+                const historyDiv = document.getElementById('historyListFull');
+
+                if (data.status === 'success' && data.data.length > 0) {
+                    historyDiv.innerHTML = data.data.map(post => `
+                        <div class="post-item">
+                            <div class="post-content">${escapeHtml(post.content).substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
+                            <div class="post-meta">
+                                <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
+                                <span class="status-badge">Telegram: ${statusLabel(post.telegram_status)}</span>
+                                <span class="status-badge">Discord: ${statusLabel(post.discord_status)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    historyDiv.innerHTML = '<div class="text-center muted">Нет постов. Создайте первый!</div>';
+                }
+            } catch (error) {
+                document.getElementById('historyListFull').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

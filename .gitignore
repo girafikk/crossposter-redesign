@@ -1,0 +1,23 @@
+# Пакеты и бинарники
+*.deb
+*.rpm
+*.zip
+*.tar.gz
+*.tgz
+*.exe
+*.msi
+
+# Крупные папки с зависимостями
+node_modules/
+vendor/
+__pycache__/
+*.log
+.env
+node_modules/
+*.deb
+*.rpm
+*.zip
+*.tar.gz
+.env
+*.log
+__pycache__/
