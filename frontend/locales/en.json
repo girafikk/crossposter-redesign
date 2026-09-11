@@ -1,1 +1,88 @@
-
+{
+  "auth": {
+    "title": "Sign in",
+    "subtitle": "Enter your credentials",
+    "email": "Email",
+    "password": "Password",
+    "login": "Sign in",
+    "no_account": "No account?",
+    "register_link": "Sign up",
+    "register_title": "Sign up",
+    "register_subtitle": "Create a new account",
+    "register": "Sign up",
+    "back_to_login": "Back to sign in"
+  },
+  "sidebar": {
+    "home": "Home",
+    "create_post": "Create post",
+    "history": "Post history",
+    "channels": "Channels"
+  },
+  "account": {
+    "title": "Account",
+    "language": "English",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "logout": "Log out"
+  },
+  "post": {
+    "create_title": "Create post",
+    "placeholder": "Enter post text...",
+    "where_publish": "Where to publish:",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "publish": "Publish"
+  },
+  "history": {
+    "title": "Post history",
+    "empty": "No posts yet. Create your first!",
+    "loading": "Loading..."
+  },
+  "telegram": {
+    "title": "Telegram",
+    "channel_link": "Channel link",
+    "channel_placeholder": "https://t.me/your_channel",
+    "bot_admin_note": "The bot must be an administrator of the channel",
+    "connect": "Connect Telegram",
+    "connected": "Connected",
+    "not_connected": "Not connected"
+  },
+  "discord": {
+    "title": "Discord",
+    "step1_title": "Step 1. Add the bot to your server",
+    "step1_text": "Click the button below, select your server and authorize the bot.",
+    "add_bot": "Add bot to server",
+    "step2_title": "Step 2. Get the channel ID:",
+    "step2_li1": "Enable Developer Mode in Discord (Settings - Advanced)",
+    "step2_li2": "Right-click the channel - Copy ID",
+    "step2_li3": "Paste the ID into the field below",
+    "step2_li4": "Click \"Connect Discord\"",
+    "channel_id": "Channel ID",
+    "channel_id_placeholder": "123456789012345678",
+    "channel_id_note": "Channel ID (18+ digits) where posts will be published",
+    "connect": "Connect Discord",
+    "connected": "Connected",
+    "not_connected": "Not connected"
+  },
+  "server": {
+    "email_password_required": "Email and password are required",
+    "user_already_exists": "User already exists",
+    "invalid_credentials": "Invalid email or password",
+    "server_error": "Server error",
+    "not_authorized": "Not authorized",
+    "channel_link_required": "Channel link is required",
+    "bot_cannot_post": "The bot cannot send the message. Make sure the bot is added as a channel administrator.",
+    "telegram_connected_success": "Telegram connected! Test message sent.",
+    "telegram_disconnected": "Telegram disconnected",
+    "discord_channel_required": "Channel ID is required",
+    "discord_channel_number": "Channel ID must be a number",
+    "bot_cannot_post_discord": "The bot cannot send the message. Make sure the bot is added to the server and has permission to post.",
+    "discord_connected_success": "Discord connected! Test message sent.",
+    "discord_disconnected": "Discord disconnected",
+    "post_text_required": "Post text is required",
+    "registration_success": "Registration successful",
+    "fill_all_fields": "Please fill in all fields",
+    "connection_error": "Connection error"
+  }
+}

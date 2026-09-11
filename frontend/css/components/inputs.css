@@ -1,1 +1,71 @@
+/* ============================================================
+   Поля ввода
+   ============================================================ */
 
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-group label,
+label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--fs-base);
+  transition: border-color var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out);
+}
+
+textarea {
+  height: auto;
+  min-height: 140px;
+  padding: var(--space-3) var(--space-4);
+  resize: vertical;
+  line-height: var(--lh-base);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(53, 94, 59, 0.18);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background: var(--color-surface-2);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+small {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}

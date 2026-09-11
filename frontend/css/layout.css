@@ -1,38 +1,50 @@
 /* ============================================================
-   Layout — сайдбар, топбар, контент
+   Layout — топбар (зелёный, на всю ширину), сайдбар (выезжающий)
    ============================================================ */
 
-/* ---------- Общий каркас приложения ---------- */
 .app {
-  display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  grid-template-rows: var(--topbar-h) 1fr;
-  grid-template-areas:
-    "sidebar topbar"
-    "sidebar content";
   min-height: 100dvh;
   background: var(--color-bg);
 }
 
-/* ---------- Топбар ---------- */
+/* ---------- Топбар — зелёный, на всю ширину экрана ---------- */
 .app__topbar {
-  grid-area: topbar;
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding: 0 var(--space-6);
-  height: var(--topbar-h);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  height: 72px;
+  background: var(--brand-400);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--brand-500);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.app__topbar-title {
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-semibold);
+.app__topbar-burger {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
   color: var(--color-text);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.app__topbar-burger:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.app__topbar-burger svg {
+  width: 26px;
+  height: 26px;
 }
 
 .app__topbar-actions {
@@ -42,59 +54,69 @@
   gap: var(--space-3);
 }
 
-/* ---------- Сайдбар ---------- */
+/* ---------- Сайдбар — выезжает слева, ПОД топбаром ---------- */
 .app__sidebar {
-  grid-area: sidebar;
-  position: sticky;
-  top: 0;
-  height: 100dvh;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 280px;
+  height: calc(100dvh - 72px);
   display: flex;
   flex-direction: column;
-  padding: var(--space-4) var(--space-3);
+  padding: 0;
   background: var(--color-surface);
   border-right: 1px solid var(--color-border);
-  overflow-y: auto;
+  overflow: visible;
+  transform: translateX(-100%);
+  transition: transform var(--dur-base) var(--ease-out);
+  z-index: var(--z-drawer);
+  box-shadow: var(--shadow-lg);
 }
 
+.app__sidebar.is-open {
+  transform: translateX(0);
+}
+
+/* Бренд в сайдбаре — «поднимаем» его наверх, чтобы он сливался с топбаром */
 .sidebar__brand {
+  position: absolute;
+  top: -72px;
+  left: 0;
+  right: 0;
+  height: 72px;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  margin-bottom: var(--space-6);
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-bold);
+  padding: 0 var(--space-6);
+  background: var(--brand-400);
   color: var(--color-text);
-}
-
-.sidebar__brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--color-primary), var(--blue-400));
-  display: grid;
-  place-items: center;
-  color: #fff;
+  font-size: var(--fs-xl);
   font-weight: var(--fw-bold);
-  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-tight);
+  border-bottom: 1px solid var(--brand-500);
+  z-index: 10;
 }
 
+/* ---------- Навигация в сайдбаре ---------- */
 .sidebar__nav {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  padding: var(--space-3);
+  flex: 1;
+  overflow-y: auto;
 }
 
 .sidebar__link {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: var(--fw-medium);
   cursor: pointer;
+  text-decoration: none;
   transition: background var(--dur-fast) var(--ease-out),
               color var(--dur-fast) var(--ease-out);
 }
@@ -105,84 +127,62 @@
 }
 
 .sidebar__link.is-active {
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
+  background: rgba(53, 94, 59, 0.08);
+  color: var(--brand-700);
   font-weight: var(--fw-semibold);
 }
 
 .sidebar__link-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-}
-
-.sidebar__footer {
-  margin-top: auto;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  font-size: var(--fs-xs);
-  color: var(--color-text-muted);
+  font-size: 17px;
 }
 
 /* ---------- Контент ---------- */
 .app__content {
-  grid-area: content;
   padding: var(--space-6);
-  min-width: 0; /* для grid-детей, чтобы не разъезжались */
+  min-width: 0;
 }
 
-.page {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.page__title {
-  font-size: var(--fs-2xl);
-  font-weight: var(--fw-bold);
-  color: var(--color-text);
-}
-
-.page__subtitle {
-  color: var(--color-text-muted);
-  font-size: var(--fs-sm);
+.app__content > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ---------- Мобильная адаптация ---------- */
 @media (max-width: 900px) {
-  .app {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "topbar"
-      "content";
-  }
-
-  .app__sidebar {
-    position: fixed;
-    top: var(--topbar-h);
-    left: 0;
-    width: var(--sidebar-w);
-    height: calc(100dvh - var(--topbar-h));
-    transform: translateX(-100%);
-    transition: transform var(--dur-base) var(--ease-out);
-    z-index: var(--z-drawer);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .app__sidebar.is-open {
-    transform: translateX(0);
-  }
-
   .app__content {
     padding: var(--space-4);
   }
 
   .app__topbar {
     padding: 0 var(--space-4);
+    height: 64px;
+  }
+
+  .app__sidebar {
+    top: 64px;
+    width: 260px;
+    height: calc(100dvh - 64px);
+  }
+
+  .sidebar__brand {
+    top: -64px;
+    height: 64px;
   }
 }
 
+/* ============================================================
+   Вырываем #mainSection из .container
+   ============================================================ */
+#mainSection {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 5;
+  overflow-y: auto;
+}

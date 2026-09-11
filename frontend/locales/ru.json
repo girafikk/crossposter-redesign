@@ -1,1 +1,88 @@
-
+{
+  "auth": {
+    "title": "Вход в аккаунт",
+    "subtitle": "Введите данные для входа",
+    "email": "Email",
+    "password": "Пароль",
+    "login": "Войти",
+    "no_account": "Нет аккаунта?",
+    "register_link": "Зарегистрироваться",
+    "register_title": "Регистрация",
+    "register_subtitle": "Создайте новый аккаунт",
+    "register": "Зарегистрироваться",
+    "back_to_login": "Вернуться ко входу"
+  },
+  "sidebar": {
+    "home": "Главная",
+    "create_post": "Создать пост",
+    "history": "История постов",
+    "channels": "Частые каналы"
+  },
+  "account": {
+    "title": "Аккаунт",
+    "language": "Русский",
+    "theme": "Тема",
+    "theme_light": "Светлая",
+    "theme_dark": "Тёмная",
+    "logout": "Выйти"
+  },
+  "post": {
+    "create_title": "Создать пост",
+    "placeholder": "Введите текст поста...",
+    "where_publish": "Куда публиковать:",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "publish": "Опубликовать"
+  },
+  "history": {
+    "title": "История постов",
+    "empty": "Нет постов. Создайте первый!",
+    "loading": "Загрузка..."
+  },
+  "telegram": {
+    "title": "Telegram",
+    "channel_link": "Ссылка на канал",
+    "channel_placeholder": "https://t.me/ваш_канал",
+    "bot_admin_note": "Бот должен быть администратором канала",
+    "connect": "Подключить Telegram",
+    "connected": "Подключен",
+    "not_connected": "Не подключен"
+  },
+  "discord": {
+    "title": "Discord",
+    "step1_title": "Шаг 1. Добавьте бота на сервер",
+    "step1_text": "Нажмите кнопку ниже, выберите свой сервер и авторизуйте бота.",
+    "add_bot": "Добавить бота на сервер",
+    "step2_title": "Шаг 2. Получите ID канала:",
+    "step2_li1": "В Discord включите Режим разработчика (Настройки - Дополнительно)",
+    "step2_li2": "Кликните правой кнопкой по каналу - Копировать ID",
+    "step2_li3": "Вставьте ID в поле ниже",
+    "step2_li4": "Нажмите \"Подключить Discord\"",
+    "channel_id": "ID канала",
+    "channel_id_placeholder": "123456789012345678",
+    "channel_id_note": "ID канала (18+ цифр), куда будут публиковаться посты",
+    "connect": "Подключить Discord",
+    "connected": "Подключен",
+    "not_connected": "Не подключен"
+  },
+  "server": {
+    "email_password_required": "Email и пароль обязательны",
+    "user_already_exists": "Пользователь уже существует",
+    "invalid_credentials": "Неверный email или пароль",
+    "server_error": "Ошибка сервера",
+    "not_authorized": "Не авторизован",
+    "channel_link_required": "Ссылка на канал обязательна",
+    "bot_cannot_post": "Бот не может отправить сообщение. Убедитесь, что бот добавлен в администраторы канала.",
+    "telegram_connected_success": "Telegram подключен! Тестовое сообщение отправлено.",
+    "telegram_disconnected": "Telegram отключен",
+    "discord_channel_required": "ID канала обязателен",
+    "discord_channel_number": "ID канала должен быть числом",
+    "bot_cannot_post_discord": "Бот не может отправить сообщение. Убедитесь, что бот добавлен на сервер и имеет права на отправку.",
+    "discord_connected_success": "Discord подключен! Тестовое сообщение отправлено.",
+    "discord_disconnected": "Discord отключен",
+    "post_text_required": "Текст поста обязателен",
+    "registration_success": "Регистрация успешна",
+    "fill_all_fields": "Заполните все поля",
+    "connection_error": "Ошибка соединения"
+  }
+}
