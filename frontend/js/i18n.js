@@ -67,19 +67,17 @@
       el.classList.toggle('is-active', el.getAttribute('data-lang-option') === lang);
     });
 
-    // Обновляем "Русский"/"English" в пункте меню рядом с флагом
-    const langLabel = document.querySelector('[data-lang-label]');
-    if (langLabel) {
-      langLabel.textContent = dict.account && dict.account.language
+    // Обновляем ВСЕ метки языка (auth + dropdown ЛК)
+    document.querySelectorAll('[data-lang-label]').forEach(el => {
+      el.textContent = dict.account && dict.account.language
         ? dict.account.language
         : (lang === 'ru' ? 'Русский' : 'English');
-    }
+    });
 
-    // Обновляем флаг
-    const langFlag = document.querySelector('[data-lang-flag]');
-    if (langFlag) {
-      langFlag.textContent = lang === 'ru' ? '🇷🇺' : '🇺🇸';
-    }
+    document.querySelectorAll('[data-lang-flag]').forEach(el => {
+      el.textContent = lang === 'ru' ? '🇷🇺' : '🇺🇸';
+    }); 
+
     // Обновляем статусы Telegram/Discord после смены языка
     if (typeof window.loadTelegramStatus === 'function') {
       window.loadTelegramStatus();

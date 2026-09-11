@@ -533,8 +533,7 @@
 
                         <div class="card">
                             <h2 data-i18n="history.title">История постов</h2>
-                            <div id="historyList">
-                                <div class="text-center muted" data-i18n="history.loading">Загрузка...</div>
+                            <div id="historyList">                                <div class="text-center muted" data-i18n="history.loading">Загрузка...</div>
                             </div>
                         </div>
                     </div>
@@ -543,6 +542,17 @@
                         <div class="card">
                             <h2 data-i18n="telegram.title">Telegram</h2>
                             <div id="telegramStatus"></div>
+
+                            <div class="steps">
+                                <strong data-i18n="telegram.step1_title">Шаг 1. Добавьте бота в администраторы канала</strong>
+                                <p data-i18n="telegram.step1_text">Откройте Telegram, найдите бота @mytelegram5_bot и добавьте его в администраторы вашего канала с правом публикации сообщений.</p>
+                            </div>
+
+                            <div class="steps">
+                                <strong data-i18n="telegram.step2_title">Шаг 2. Укажите ссылку на канал</strong>
+                                <p data-i18n="telegram.step2_text">Скопируйте ссылку вида https://t.me/имя_канала и вставьте её в поле ниже, затем нажмите «Подключить Telegram».</p>
+                            </div>
+
                             <div id="telegramConnectForm">
                                 <div class="form-group">
                                     <label data-i18n="telegram.channel_link">Ссылка на канал</label>
@@ -719,7 +729,12 @@
             }
         }
 
-        function logout() {
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+            } catch (e) {
+                console.error('[logout]', e);
+            }
             userId = null;
             currentUserEmail = '';
             document.getElementById('mainSection').classList.add('hidden');
@@ -967,6 +982,37 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
+        // ============================================================
+        // Тихая проверка сессии при загрузке страницы
+        // ============================================================
+        (async function checkSession() {
+            try {
+                const res = await fetch('/api/me', { credentials: 'include' });
+                if (!res.ok) {
+                    return; // 401 — сессии нет, остаёмся на форме логина
+                }
+                const data = await res.json();
+                if (data.status !== 'success') return;
+
+                userId = data.data.userId;
+                currentUserEmail = data.data.email;
+
+                document.getElementById('authSection').classList.add('hidden');
+                document.getElementById('mainSection').classList.remove('hidden');
+                document.getElementById('accountEmail').textContent = data.data.email;
+                document.getElementById('accountUserId').textContent = data.data.userId;
+
+                if (typeof loadTelegramStatus === 'function') loadTelegramStatus();
+                if (typeof loadDiscordStatus === 'function') loadDiscordStatus();
+                if (typeof loadHistory === 'function') loadHistory();
+                if (typeof loadHistoryFull === 'function') loadHistoryFull();
+                if (typeof showPostTab === 'function') showPostTab();
+            } catch (e) {
+                console.error('[checkSession]', e);
+            }
+        })();
+
     </script>
     <script src="js/dropdown.js"></script>
     <script src="js/i18n.js"></script>

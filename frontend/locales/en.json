@@ -41,6 +41,10 @@
   },
   "telegram": {
     "title": "Telegram",
+    "step1_title": "Step 1. Add the bot as a channel administrator",
+    "step1_text": "Open Telegram, find @mytelegram5_bot and add it as an administrator of your channel with permission to post messages.",
+    "step2_title": "Step 2. Provide the channel link",
+    "step2_text": "Copy a link like https://t.me/your_channel, paste it into the field below and click \"Connect Telegram\".",
     "channel_link": "Channel link",
     "channel_placeholder": "https://t.me/your_channel",
     "bot_admin_note": "The bot must be an administrator of the channel",
