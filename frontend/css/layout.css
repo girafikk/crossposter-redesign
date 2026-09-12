@@ -176,6 +176,384 @@
   }
 }
 
+
+/* ============================================================
+   Разделы (page sections)
+   ============================================================ */
+
+.page-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ============================================================
+   Главная страница — особая компоновка
+   ============================================================ */
+
+#homeSection.page-section {
+  gap: 0; /* отступы зададим точечно */
+  max-width: 960px;
+  padding-top: var(--space-8);
+}
+
+/* Приветственный блок — по центру */
+#homeSection .home__hero {
+  text-align: center;
+  padding: var(--space-6) 0 var(--space-10);
+}
+
+#homeSection .home__hero .page__title {
+  font-size: 42px;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+  color: var(--color-text);
+  margin: 0 0 var(--space-4) 0;
+}
+
+#homeSection .home__hero .page__subtitle {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  max-width: 560px;
+  margin: 0 auto var(--space-8);
+  line-height: var(--lh-base);
+}
+
+#homeSection .home__hero .btn-primary {
+  display: inline-flex;
+  width: auto;
+  height: 56px;
+  padding: 0 var(--space-10);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 24px rgba(53, 94, 59, 0.25);
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+#homeSection .home__hero .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(53, 94, 59, 0.35);
+}
+
+/* Заголовки секций на Главной — по центру */
+#homeSection .page__section-title {
+  text-align: center;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  margin: 0 0 var(--space-6) 0;
+}
+
+/* Карточки площадок — по краям, с отступами */
+#homeSection .home__channels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  max-width: 760px;
+  margin: 0 auto var(--space-10);
+  width: 100%;
+}
+
+#homeSection .channel-card {
+  padding: var(--space-5) var(--space-6);
+  text-align: center;
+  align-items: center;
+}
+
+#homeSection .channel-card__head {
+  justify-content: center;
+  font-size: var(--fs-lg);
+  gap: var(--space-3);
+}
+
+#homeSection .channel-card__icon {
+  font-size: 28px;
+}
+
+#homeSection .channel-card__name {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+#homeSection .channel-card__detail {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* Заголовок "Последние публикации" с центром + ссылка справа */
+#homeSection .page__section-head {
+  max-width: 100%;
+  margin: 0 0 var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+#homeSection .page__section-head .page__section-title {
+  margin: 0;
+  text-align: left;
+}
+
+/* Список последних публикаций */
+#homeSection .home__recent {
+  max-width: 760px;
+  margin: 0 auto;
+  gap: var(--space-3);
+}
+
+.page__greeting {
+  margin-bottom: var(--space-2);
+}
+
+.page__title {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  letter-spacing: var(--ls-tight);
+  margin: 0 0 var(--space-6) 0;
+  text-align: center;
+}
+
+.page__subtitle {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.page__section-title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.page__section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.page__link {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--brand-600);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.page__link:hover {
+  color: var(--brand-700);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Sidebar — заголовок группы и подпункты
+   ============================================================ */
+
+.sidebar__group-title {
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  margin-top: var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+}
+
+.sidebar__link--sub {
+  padding-left: calc(var(--space-3) + 12px);
+  font-size: var(--fs-sm);
+}
+
+.sidebar__link--sub .sidebar__link-icon {
+  font-size: 14px;
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================================
+   Карточки на страницах-разделах (Создать пост, Telegram, Discord)
+   ============================================================ */
+
+/* Универсальное увеличение для карточек в разделах */
+#createSection .card,
+#telegramSection .card,
+#discordSection .card,
+#historySection .card,
+#accountSection .card {
+  padding: var(--space-8) var(--space-8);
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Заголовки внутри карточек крупнее */
+#createSection .card h2,
+#telegramSection .card h2,
+#discordSection .card h2,
+#historySection .card h2,
+#accountSection .card h2 {
+  font-size: var(--fs-2xl);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+/* ============================================================
+   Страница "Создать пост" — крупнее всё
+   ============================================================ */
+
+#createSection textarea {
+  min-height: 220px;
+  font-size: var(--fs-lg);
+  padding: var(--space-4) var(--space-5);
+  line-height: var(--lh-base);
+}
+
+#createSection .form-group {
+  margin-bottom: var(--space-6);
+}
+
+#createSection .form-group label {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-3);
+}
+
+#createSection .platform-selector {
+  gap: var(--space-4);
+}
+
+#createSection .platform-option {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  border-radius: var(--radius-lg);
+}
+
+#createSection .platform-option input {
+  width: 22px;
+  height: 22px;
+}
+
+#createSection .btn.btn-primary {
+  height: 56px;
+  font-size: var(--fs-lg);
+  margin-top: var(--space-4);
+}
+
+/* ============================================================
+   Страница Telegram — крупнее всё
+   ============================================================ */
+
+#telegramSection .steps {
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0;
+  font-size: var(--fs-base);
+}
+
+#telegramSection .steps strong {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--space-3);
+}
+
+#telegramSection .steps p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+}
+
+#telegramSection .form-group {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+#telegramSection .form-group label {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-2);
+}
+
+#telegramSection input[type="text"] {
+  height: 56px;
+  font-size: var(--fs-lg);
+  padding: 0 var(--space-5);
+}
+
+#telegramSection .btn.btn-primary {
+  height: 56px;
+  font-size: var(--fs-lg);
+  margin-top: var(--space-3);
+}
+
+#telegramSection #telegramStatus,
+#telegramSection #telegramMessage {
+  margin-bottom: var(--space-4);
+}
+
+/* ============================================================
+   Страница Discord — симметрия с Telegram
+   ============================================================ */
+
+#discordSection .steps {
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0;
+}
+
+#discordSection .steps strong {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--space-3);
+}
+
+#discordSection .steps p,
+#discordSection .steps li {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+}
+
+#discordSection .steps ol {
+  margin-top: var(--space-3);
+}
+
+#discordSection .steps li {
+  margin-bottom: var(--space-2);
+}
+
+#discordSection .btn.btn-discord {
+  height: 56px;
+  font-size: var(--fs-lg);
+  margin-top: var(--space-3);
+}
+
+#discordSection .form-group {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+#discordSection .form-group label {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-2);
+}
+
+#discordSection input[type="text"] {
+  height: 56px;
+  font-size: var(--fs-lg);
+  padding: 0 var(--space-5);
+}
+
+#discordSection .btn.btn-primary,
+#discordSection .btn.btn-discord {
+  height: 56px;
+  font-size: var(--fs-lg);
+  margin-top: var(--space-3);
+}
+
 /* ============================================================
    Вырываем #mainSection из .container
    ============================================================ */
@@ -186,3 +564,4 @@
   z-index: 5;
   overflow-y: auto;
 }
+

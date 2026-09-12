@@ -1,4 +1,13 @@
 {
+  "home": {
+    "welcome": "Welcome to CrossPoster!",
+    "subtitle": "Publish a single post to Telegram and Discord at once.",
+    "create_btn": "＋ Create post",
+    "channels_title": "Connected platforms",
+    "recent_title": "Recent posts",
+    "view_all": "View all →"
+  },
+
   "auth": {
     "title": "Sign in",
     "subtitle": "Enter your credentials",
@@ -16,7 +25,7 @@
     "home": "Home",
     "create_post": "Create post",
     "history": "Post history",
-    "channels": "Channels"
+    "channels": "Platforms"
   },
   "account": {
     "title": "Account",
@@ -24,7 +33,12 @@
     "theme": "Theme",
     "theme_light": "Light",
     "theme_dark": "Dark",
-    "logout": "Log out"
+    "logout": "Log out",
+    "email": "Email",
+    "name": "Name",
+    "user_id": "User ID",
+    "status": "Status",
+    "status_active": "Active"
   },
   "post": {
     "create_title": "Create post",
@@ -88,5 +102,9 @@
     "registration_success": "Registration successful",
     "fill_all_fields": "Please fill in all fields",
     "connection_error": "Connection error"
+  }
+  ,
+  "common": {
+   "close": "Close"
   }
 }

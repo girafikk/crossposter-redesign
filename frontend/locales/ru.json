@@ -1,4 +1,13 @@
 {
+  "home": {
+    "welcome": "Добро пожаловать в CrossPoster!",
+    "subtitle": "Публикуйте один пост сразу в Telegram и Discord.",
+    "create_btn": "＋ Создать публикацию",
+    "channels_title": "Подключённые площадки",
+    "recent_title": "Последние публикации",
+    "view_all": "Смотреть все →"
+  },
+
   "auth": {
     "title": "Вход в аккаунт",
     "subtitle": "Введите данные для входа",
@@ -16,7 +25,7 @@
     "home": "Главная",
     "create_post": "Создать пост",
     "history": "История постов",
-    "channels": "Частые каналы"
+    "channels": "Площадки"
   },
   "account": {
     "title": "Аккаунт",
@@ -24,7 +33,12 @@
     "theme": "Тема",
     "theme_light": "Светлая",
     "theme_dark": "Тёмная",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "email": "Email",
+    "name": "Имя",
+    "user_id": "ID пользователя",
+    "status": "Статус",
+    "status_active": "Активен"
   },
   "post": {
     "create_title": "Создать пост",
@@ -88,5 +102,9 @@
     "registration_success": "Регистрация успешна",
     "fill_all_fields": "Заполните все поля",
     "connection_error": "Ошибка соединения"
+  }
+  ,
+  "common": {
+    "close": "Закрыть"
   }
 }

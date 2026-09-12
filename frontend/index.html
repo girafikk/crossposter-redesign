@@ -420,21 +420,26 @@
                         <span>CrossPoster</span>
                     </div>
                     <nav class="sidebar__nav">
-                        <a href="#" class="sidebar__link is-active" data-nav="main" onclick="scrollToMain(); return false;">
+                        <a href="#" class="sidebar__link is-active" data-section="home" onclick="showSection('home'); return false;">
                             <span class="sidebar__link-icon">🏠</span>
                             <span data-i18n="sidebar.home">Главная</span>
                         </a>
-                        <a href="#" class="sidebar__link" data-nav="post" onclick="scrollToPost(); return false;">
+                        <a href="#" class="sidebar__link" data-section="create" onclick="showSection('create'); return false;">
                             <span class="sidebar__link-icon">✚</span>
                             <span data-i18n="sidebar.create_post">Создать пост</span>
                         </a>
-                        <a href="#" class="sidebar__link" data-nav="history" onclick="scrollToHistory(); return false;">
+                        <a href="#" class="sidebar__link" data-section="history" onclick="showSection('history'); return false;">
                             <span class="sidebar__link-icon">◷</span>
                             <span data-i18n="sidebar.history">История постов</span>
                         </a>
-                        <a href="#" class="sidebar__link" data-nav="channels" onclick="scrollToChannels(); return false;">
-                            <span class="sidebar__link-icon">📌</span>
-                            <span data-i18n="sidebar.channels">Частые каналы</span>
+                        <div class="sidebar__group-title" data-i18n="sidebar.channels">📌 Площадки</div>
+                        <a href="#" class="sidebar__link sidebar__link--sub" data-section="telegram" onclick="showSection('telegram'); return false;">
+                            <span class="sidebar__link-icon">🔵</span>
+                            <span data-i18n="sidebar.telegram">Telegram</span>
+                        </a>
+                        <a href="#" class="sidebar__link sidebar__link--sub" data-section="discord" onclick="showSection('discord'); return false;">
+                            <span class="sidebar__link-icon">🟣</span>
+                            <span data-i18n="sidebar.discord">Discord</span>
                         </a>
                     </nav>
                 </aside>
@@ -461,7 +466,7 @@
                                 </svg>
                             </button>
                             <div class="dropdown__menu" data-dropdown-menu hidden>
-                                <button class="dropdown__item" type="button" onclick="showAccountTab()">
+                                <button class="dropdown__item" type="button" onclick="showSection('account'); return false;">
                                     <span class="dropdown__item-label">👤 <span data-i18n="account.title">Аккаунт</span></span>
                                 </button>
                                 <hr class="dropdown__divider">
@@ -509,112 +514,190 @@
 
                 <!-- Контент -->
                 <main class="app__content">
-                <div id="postTab" class="grid-2">
-                    <div>
-                        <div class="card">
-                            <h2 data-i18n="post.create_title">Создать пост</h2>
-                            <div class="form-group">
-                                <textarea id="postContent" data-i18n-placeholder="post.placeholder" placeholder="Введите текст поста..."></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label data-i18n="post.where_publish">Куда публиковать:</label>
-                                <div class="platform-selector">
-                                    <label class="platform-option">
-                                        <input type="checkbox" id="sendTelegram" checked> <span data-i18n="post.telegram">Telegram</span>
-                                    </label>
-                                    <label class="platform-option">
-                                        <input type="checkbox" id="sendDiscord" checked> <span data-i18n="post.discord">Discord</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" onclick="sendPost()" data-i18n="post.publish">Опубликовать</button>
-                            <div id="postMessage"></div>
-                        </div>
-
-                        <div class="card">
-                            <h2 data-i18n="history.title">История постов</h2>
-                            <div id="historyList">                                <div class="text-center muted" data-i18n="history.loading">Загрузка...</div>
-                            </div>
-                        </div>
+                <!-- ============================================ -->
+                <!-- 1. ГЛАВНАЯ                                    -->
+                <!-- ============================================ -->
+                <section id="homeSection" class="page-section">
+                    <div class="home__hero">
+                        <h1 class="page__title" data-i18n="home.welcome">Добро пожаловать в CrossPoster!</h1>
+                        <p class="page__subtitle" data-i18n="home.subtitle">Публикуйте один пост сразу в Telegram и Discord.</p>
+                        <button class="btn btn-primary" onclick="showSection('create')">
+                            <span data-i18n="home.create_btn">＋ Создать публикацию</span>
+                        </button>
                     </div>
 
-                    <div>
-                        <div class="card">
-                            <h2 data-i18n="telegram.title">Telegram</h2>
-                            <div id="telegramStatus"></div>
-
-                            <div class="steps">
-                                <strong data-i18n="telegram.step1_title">Шаг 1. Добавьте бота в администраторы канала</strong>
-                                <p data-i18n="telegram.step1_text">Откройте Telegram, найдите бота @mytelegram5_bot и добавьте его в администраторы вашего канала с правом публикации сообщений.</p>
+                    <h2 class="page__section-title" data-i18n="home.channels_title">Подключённые площадки</h2>
+                    <div class="home__channels">
+                        <a href="#" class="channel-card" data-channel="telegram" onclick="showSection('telegram'); return false;">
+                            <div class="channel-card__head">
+                                <span class="channel-card__icon">🔵</span>
+                                <span class="channel-card__name" data-i18n="post.telegram">Telegram</span>
                             </div>
-
-                            <div class="steps">
-                                <strong data-i18n="telegram.step2_title">Шаг 2. Укажите ссылку на канал</strong>
-                                <p data-i18n="telegram.step2_text">Скопируйте ссылку вида https://t.me/имя_канала и вставьте её в поле ниже, затем нажмите «Подключить Telegram».</p>
+                            <div class="channel-card__status" id="homeTelegramStatus">
+                                <span class="status-badge is-idle" data-i18n="telegram.not_connected">Не подключен</span>
                             </div>
+                            <div class="channel-card__detail" id="homeTelegramDetail"></div>
+                        </a>
 
-                            <div id="telegramConnectForm">
-                                <div class="form-group">
-                                    <label data-i18n="telegram.channel_link">Ссылка на канал</label>
-                                    <input type="text" id="telegramChannel" data-i18n-placeholder="telegram.channel_placeholder" placeholder="https://t.me/ваш_канал">
-                                    <small data-i18n="telegram.bot_admin_note">Бот должен быть администратором канала</small>
-                                </div>
-                                <button class="btn btn-primary" onclick="connectTelegram()" data-i18n="telegram.connect">Подключить Telegram</button>
+                        <a href="#" class="channel-card" data-channel="discord" onclick="showSection('discord'); return false;">
+                            <div class="channel-card__head">
+                                <span class="channel-card__icon">🟣</span>
+                                <span class="channel-card__name" data-i18n="post.discord">Discord</span>
                             </div>
-                            <div id="telegramMessage"></div>
-                        </div>
-
-                        <div class="card">
-                            <h2 data-i18n="discord.title">Discord</h2>
-                            <div id="discordStatus"></div>
-    
-                            <div class="steps">
-                                <strong data-i18n="discord.step1_title">Шаг 1. Добавьте бота на сервер</strong>
-                                <p data-i18n="discord.step1_text">Нажмите кнопку ниже, выберите свой сервер и авторизуйте бота.</p>
-                                <a href="https://discord.com/oauth2/authorize?client_id=1547214636405755914&permissions=274878023680&integration_type=0&scope=bot" target="_blank" class="btn btn-discord" data-i18n="discord.add_bot">Добавить бота на сервер</a>
+                            <div class="channel-card__status" id="homeDiscordStatus">
+                                <span class="status-badge is-idle" data-i18n="discord.not_connected">Не подключен</span>
                             </div>
-
-                            <div class="steps">
-                                <strong data-i18n="discord.step2_title">Шаг 2. Получите ID канала:</strong>
-                                <ol>
-                                    <li data-i18n="discord.step2_li1">В Discord включите Режим разработчика (Настройки - Дополнительно)</li>
-                                    <li data-i18n="discord.step2_li2">Кликните правой кнопкой по каналу - Копировать ID</li>
-                                    <li data-i18n="discord.step2_li3">Вставьте ID в поле ниже</li>
-                                    <li data-i18n="discord.step2_li4">Нажмите "Подключить Discord"</li>
-                                </ol>
-                            </div>
-
-                            <div id="discordConnectForm">
-                                <div class="form-group">
-                                    <label data-i18n="discord.channel_id">ID канала</label>
-                                    <input type="text" id="discordChannelId" data-i18n-placeholder="discord.channel_id_placeholder" placeholder="123456789012345678">
-                                    <small data-i18n="discord.channel_id_note">ID канала (18+ цифр), куда будут публиковаться посты</small>
-                                </div>
-                                <button class="btn btn-discord" onclick="connectDiscord()" data-i18n="discord.connect">Подключить Discord</button>
-                            </div>
-                            <div id="discordMessage"></div>
-                        </div>
+                            <div class="channel-card__detail" id="homeDiscordDetail"></div>
+                        </a>
                     </div>
-                </div>
 
-                <div id="historyTab" class="hidden">
+                    <div class="page__section-head">
+                        <h2 class="page__section-title" data-i18n="home.recent_title">Последние публикации</h2>
+                        <a href="#" class="page__link" onclick="showSection('history'); return false;" data-i18n="home.view_all">Смотреть все →</a>
+                    </div>
+                    <div id="homeRecentList" class="home__recent">
+                        <div class="text-center muted" data-i18n="history.loading">Загрузка...</div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- 2. СОЗДАТЬ ПОСТ                               -->
+                <!-- ============================================ -->
+                <section id="createSection" class="page-section hidden">
+                    <h1 class="page__title" data-i18n="post.create_title">Создать пост</h1>
+
                     <div class="card">
-                        <h2 data-i18n="history.title">История постов</h2>
-                        <div id="historyList">
+                        <div class="form-group">
+                            <textarea id="postContent" data-i18n-placeholder="post.placeholder" placeholder="Введите текст поста..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="post.where_publish">Куда публиковать:</label>
+                            <div class="platform-selector">
+                                <label class="platform-option">
+                                    <input type="checkbox" id="sendTelegram" checked>
+                                    <span data-i18n="post.telegram">Telegram</span>
+                                </label>
+                                <label class="platform-option">
+                                    <input type="checkbox" id="sendDiscord" checked>
+                                    <span data-i18n="post.discord">Discord</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="sendPost()" data-i18n="post.publish">Опубликовать</button>
+                        <div id="postMessage"></div>
+                    </div>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- 3. ИСТОРИЯ ПОСТОВ                             -->
+                <!-- ============================================ -->
+                <section id="historySection" class="page-section hidden">
+                    <h1 class="page__title" data-i18n="history.title">История постов</h1>
+                    <div class="card">
+                        <div id="historyListFull">
                             <div class="text-center muted" data-i18n="history.loading">Загрузка...</div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div id="accountTab" class="hidden">
+                <!-- ============================================ -->
+                <!-- 4. TELEGRAM                                   -->
+                <!-- ============================================ -->
+                <section id="telegramSection" class="page-section hidden">
+                    <h1 class="page__title" data-i18n="telegram.title">Telegram</h1>
                     <div class="card">
-                        <h2>Информация об аккаунте</h2>
-                        <p><strong>Email:</strong> <span id="accountEmail">—</span></p>
-                        <p><strong>ID пользователя:</strong> <span id="accountUserId">—</span></p>
-                        <p><strong>Статус:</strong> <span id="accountStatus">Активен</span></p>
+                        <div id="telegramStatus"></div>
+
+                        <div class="steps">
+                            <strong data-i18n="telegram.step1_title">Шаг 1. Добавьте бота в администраторы канала</strong>
+                            <p data-i18n="telegram.step1_text">Откройте Telegram, найдите бота @mytelegram5_bot и добавьте его в администраторы вашего канала с правом публикации сообщений.</p>
+                        </div>
+
+                        <div class="steps">
+                            <strong data-i18n="telegram.step2_title">Шаг 2. Укажите ссылку на канал</strong>
+                            <p data-i18n="telegram.step2_text">Скопируйте ссылку вида https://t.me/имя_канала и вставьте её в поле ниже, затем нажмите «Подключить Telegram».</p>
+                        </div>
+
+                        <div id="telegramConnectForm">
+                            <div class="form-group">
+                                <label data-i18n="telegram.channel_link">Ссылка на канал</label>
+                                <input type="text" id="telegramChannel" data-i18n-placeholder="telegram.channel_placeholder" placeholder="https://t.me/ваш_канал">
+                                <small data-i18n="telegram.bot_admin_note">Бот должен быть администратором канала</small>
+                            </div>
+                            <button class="btn btn-primary" onclick="connectTelegram()" data-i18n="telegram.connect">Подключить Telegram</button>
+                        </div>
+                        <div id="telegramMessage"></div>
                     </div>
-                </div>
-                    </main>
+                </section>
+
+                <!-- ============================================ -->
+                <!-- 5. DISCORD                                    -->
+                <!-- ============================================ -->
+                <section id="discordSection" class="page-section hidden">
+                    <h1 class="page__title" data-i18n="discord.title">Discord</h1>
+                    <div class="card">
+                        <div id="discordStatus"></div>
+
+                        <div class="steps">
+                            <strong data-i18n="discord.step1_title">Шаг 1. Добавьте бота на сервер</strong>
+                            <p data-i18n="discord.step1_text">Нажмите кнопку ниже, выберите свой сервер и авторизуйте бота.</p>
+                            <a href="https://discord.com/oauth2/authorize?client_id=1547214636405755914&permissions=274878023680&integration_type=0&scope=bot" target="_blank" class="btn btn-discord" data-i18n="discord.add_bot">Добавить бота на сервер</a>
+                        </div>
+
+                        <div class="steps">
+                            <strong data-i18n="discord.step2_title">Шаг 2. Получите ID канала:</strong>
+                            <ol>
+                                <li data-i18n="discord.step2_li1">В Discord включите Режим разработчика (Настройки - Дополнительно)</li>
+                                <li data-i18n="discord.step2_li2">Кликните правой кнопкой по каналу - Копировать ID</li>
+                                <li data-i18n="discord.step2_li3">Вставьте ID в поле ниже</li>
+                                <li data-i18n="discord.step2_li4">Нажмите "Подключить Discord"</li>
+                            </ol>
+                        </div>
+
+                        <div id="discordConnectForm">
+                            <div class="form-group">
+                                <label data-i18n="discord.channel_id">ID канала</label>
+                                <input type="text" id="discordChannelId" data-i18n-placeholder="discord.channel_id_placeholder" placeholder="123456789012345678">
+                                <small data-i18n="discord.channel_id_note">ID канала (18+ цифр), куда будут публиковаться посты</small>
+                            </div>
+                            <button class="btn btn-discord" onclick="connectDiscord()" data-i18n="discord.connect">Подключить Discord</button>
+                        </div>
+                        <div id="discordMessage"></div>
+                    </div>
+                </section>
+                
+                <!-- ============================================ -->
+                <!-- 6. АККАУНТ                                    -->
+                <!-- ============================================ -->
+                <section id="accountSection" class="page-section hidden">
+                    <h1 class="page__title" data-i18n="account.title">Аккаунт</h1>
+
+                    <div class="card">
+                        <div class="account-row">
+                            <span class="account-row__label" data-i18n="account.email">Email</span>
+                            <span class="account-row__value" id="accountEmail">—</span>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-row__label" data-i18n="account.name">Имя</span>
+                            <span class="account-row__value" id="accountName">—</span>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-row__label" data-i18n="account.user_id">ID пользователя</span>
+                            <span class="account-row__value" id="accountUserId">—</span>
+                        </div>
+                        <div class="account-row">
+                            <span class="account-row__label" data-i18n="account.status">Статус</span>
+                            <span class="account-row__value">
+                                <span class="status-badge is-success" data-i18n="account.status_active">Активен</span>
+                            </span>
+                        </div>
+                    </div>
+                </section>               
+
+                </main>
+                
             </div>
         </div>
     </div>
@@ -682,7 +765,7 @@
                     loadDiscordStatus();
                     loadHistory();
                     loadHistoryFull();
-                    showPostTab();
+                    showSection('home');
                 } else {
                     document.getElementById('loginMessage').innerHTML = '<div class="alert alert-error">' + i18n.tServer(data.message) + '</div>';
                 }
@@ -720,7 +803,7 @@
                     loadDiscordStatus();
                     loadHistory();
                     loadHistoryFull();
-                    showPostTab();
+                    showSection('home');
                 } else {
                     messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.tServer(data.message) + '</div>';
                 }
@@ -735,6 +818,7 @@
             } catch (e) {
                 console.error('[logout]', e);
             }
+            try { localStorage.removeItem('crossposter_section'); } catch (e) {}
             userId = null;
             currentUserEmail = '';
             document.getElementById('mainSection').classList.add('hidden');
@@ -743,26 +827,24 @@
             document.getElementById('loginPassword').value = '';
         }
 
-        function showPostTab() {
-            document.getElementById('postTab').classList.remove('hidden');
-            document.getElementById('historyTab').classList.add('hidden');
-            document.getElementById('accountTab').classList.add('hidden');
-        }
+        function showSection(name) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(name + 'Section');
+            if (target) target.classList.remove('hidden');
+            try { localStorage.setItem('crossposter_section', name); } catch (e) {}
+            document.querySelectorAll('.sidebar__link').forEach(el => {
+                el.classList.toggle('is-active', el.getAttribute('data-section') === name);
+            });
 
-        function showHistoryTab() {
-            document.getElementById('postTab').classList.add('hidden');
-            document.getElementById('historyTab').classList.remove('hidden');
-            document.getElementById('accountTab').classList.add('hidden');
-            loadHistoryFull();
+            if (name === 'history') loadHistoryFull();
+            if (name === 'home') loadHome();
+            if (name === 'account') {
+                document.getElementById('accountEmail').textContent = currentUserEmail || '—';
+                document.getElementById('accountUserId').textContent = userId || '—';
+                document.getElementById('accountName').textContent = '—';
+            }
         }
-
-        function showAccountTab() {
-            document.getElementById('postTab').classList.add('hidden');
-            document.getElementById('historyTab').classList.add('hidden');
-            document.getElementById('accountTab').classList.remove('hidden');
-            document.getElementById('accountEmail').textContent = currentUserEmail || '—';
-            document.getElementById('accountUserId').textContent = userId || '—';
-        }
+           
 
         // ========== TELEGRAM ==========
 
@@ -976,7 +1058,59 @@
                 document.getElementById('historyListFull').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
             }
         }
+        
+        async function loadHome() {
+            // Статус Telegram
+            try {
+                const tgRes = await fetch('/api/connect/telegram/status');
+                const tg = await tgRes.json();
+                const tgStatusEl = document.getElementById('homeTelegramStatus');
+                const tgDetailEl = document.getElementById('homeTelegramDetail');
+                if (tg.status === 'success' && tg.data.connected) {
+                    tgStatusEl.innerHTML = '<span class="status-badge is-success">✓ ' + i18n.t('telegram.connected') + '</span>';
+                    tgDetailEl.textContent = tg.data.channel_link || '';
+                } else {
+                    tgStatusEl.innerHTML = '<span class="status-badge is-idle">' + i18n.t('telegram.not_connected') + '</span>';
+                    tgDetailEl.textContent = '';
+                }
+            } catch (e) { console.error('[loadHome tg]', e); }
 
+            // Статус Discord
+            try {
+                const dcRes = await fetch('/api/connect/discord/status');
+                const dc = await dcRes.json();
+                const dcStatusEl = document.getElementById('homeDiscordStatus');
+                const dcDetailEl = document.getElementById('homeDiscordDetail');
+                if (dc.status === 'success' && dc.data.connected) {
+                    dcStatusEl.innerHTML = '<span class="status-badge is-success">✓ ' + i18n.t('discord.connected') + '</span>';
+                    dcDetailEl.textContent = dc.data.channel_id || '';
+                } else {
+                    dcStatusEl.innerHTML = '<span class="status-badge is-idle">' + i18n.t('discord.not_connected') + '</span>';
+                    dcDetailEl.textContent = '';
+                }
+            } catch (e) { console.error('[loadHome dc]', e); }
+
+            // Последние 3 поста
+            try {
+                const hRes = await fetch('/api/history');
+                const h = await hRes.json();
+                const list = document.getElementById('homeRecentList');
+                if (h.status === 'success' && h.data.length > 0) {
+                    list.innerHTML = h.data.slice(0, 3).map(post => `
+                        <div class="recent-post">
+                            <div class="recent-post__date">${new Date(post.created_at).toLocaleString(i18n.getLang() === 'ru' ? 'ru-RU' : 'en-US')}</div>
+                            <div class="recent-post__content">${escapeHtml(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
+                            <div class="recent-post__status">
+                                <span class="status-badge ${post.telegram_status === 'published' ? 'is-success' : 'is-idle'}">🔵 Telegram</span>
+                                <span class="status-badge ${post.discord_status === 'published' ? 'is-success' : 'is-idle'}">🟣 Discord</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<div class="text-center muted">' + i18n.t('history.empty') + '</div>';
+                }
+            } catch (e) { console.error('[loadHome history]', e); }
+        }
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -1007,7 +1141,9 @@
                 if (typeof loadDiscordStatus === 'function') loadDiscordStatus();
                 if (typeof loadHistory === 'function') loadHistory();
                 if (typeof loadHistoryFull === 'function') loadHistoryFull();
-                if (typeof showPostTab === 'function') showPostTab();
+                let savedSection = 'home';
+                try { savedSection = localStorage.getItem('crossposter_section') || 'home'; } catch (e) {}
+                if (typeof showSection === 'function') showSection(savedSection);
             } catch (e) {
                 console.error('[checkSession]', e);
             }

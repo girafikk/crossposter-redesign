@@ -85,6 +85,24 @@
     if (typeof window.loadDiscordStatus === 'function') {
       window.loadDiscordStatus();
     }
+    
+    // Обновляем Главную (карточки площадок + последние публикации)
+    if (typeof window.loadHome === 'function') {
+      const homeSection = document.getElementById('homeSection');
+      if (homeSection && !homeSection.classList.contains('hidden')) {
+        window.loadHome();
+      }
+    }
+
+    // Обновляем короткую и полную историю
+    if (typeof window.loadHistory === 'function') {
+      const historyList = document.getElementById('historyList');
+      if (historyList) window.loadHistory();
+    }
+    if (typeof window.loadHistoryFull === 'function') {
+      const historyListFull = document.getElementById('historyListFull');
+      if (historyListFull) window.loadHistoryFull();
+    }
   }
   // Карта: русский текст сервера → ключ в словаре
   const SERVER_MAP = {

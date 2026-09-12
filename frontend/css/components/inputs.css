@@ -69,3 +69,57 @@ small {
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
+
+
+/* ============================================================
+   Чекбоксы и радио — фирменный цвет, убираем чёрную рамку
+   ============================================================ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--brand-600);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Платформы — TG/Discord в форме поста */
+.platform-selector {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+}
+
+.platform-option {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+}
+
+.platform-option:hover {
+    border-color: var(--brand-500);
+    background: var(--color-surface-2);
+}
+
+.platform-option:has(input:checked) {
+    border-color: var(--brand-600);
+    background: var(--color-primary-soft);
+}
+
+.platform-option input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--brand-600);
+}
