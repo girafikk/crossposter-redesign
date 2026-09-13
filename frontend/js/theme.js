@@ -61,11 +61,19 @@
         e.stopPropagation();
         const theme = el.getAttribute('data-theme-option');
         setTheme(theme);
-
-        // Закрываем dropdown
         const menu = el.closest('[data-dropdown-menu]');
         if (menu) menu.hidden = true;
       });
     });
-  });
+
+    // Кнопка темы на странице авторизации
+    const authThemeBtn = document.getElementById('authThemeToggle');
+    if (authThemeBtn) {
+      authThemeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const current = getTheme();
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+    }
+  });  
 })();

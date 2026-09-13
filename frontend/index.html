@@ -348,29 +348,37 @@
 <body>
     <div class="container">
         <div id="authSection" class="auth">
-            <div class="auth__lang">
-                <div class="dropdown" data-dropdown>
-                    <button class="dropdown__trigger auth__lang-trigger" data-dropdown-trigger aria-expanded="false" type="button">
-                        <span data-lang-flag>🇷🇺</span>
-                        <span data-lang-label>Русский</span>
-                        <svg class="dropdown__chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
+            <div class="auth__topbar">
+                <div class="auth__theme">
+                    <button class="auth__theme-btn" id="authThemeToggle" type="button" aria-label="Тема">
+                        <span data-theme-icon>☀️</span>
                     </button>
-                    <div class="dropdown__menu" data-dropdown-menu hidden>
-                        <button class="dropdown__item" type="button" data-lang-option="ru">
-                            <span>🇷🇺</span>
-                            <span class="dropdown__item-label">Русский</span>
-                            <span class="dropdown__check">✓</span>
+                </div>
+                <div class="auth__lang">
+                    <div class="dropdown" data-dropdown>
+                        <button class="dropdown__trigger auth__lang-trigger" data-dropdown-trigger aria-expanded="false" type="button">
+                            <span data-lang-flag>🇷🇺</span>
+                            <span data-lang-label>Русский</span>
+                            <svg class="dropdown__chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </button>
-                        <button class="dropdown__item" type="button" data-lang-option="en">
-                            <span>🇺🇸</span>
-                            <span class="dropdown__item-label">English</span>
-                            <span class="dropdown__check">✓</span>
-                        </button>
+                        <div class="dropdown__menu" data-dropdown-menu hidden>
+                            <button class="dropdown__item" type="button" data-lang-option="ru">
+                                <span>🇷🇺</span>
+                                <span class="dropdown__item-label">Русский</span>
+                                <span class="dropdown__check">✓</span>
+                            </button>
+                            <button class="dropdown__item" type="button" data-lang-option="en">
+                                <span>🇺🇸</span>
+                                <span class="dropdown__item-label">English</span>
+                                <span class="dropdown__check">✓</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="auth__card">
                 <div class="auth__header">
                     <h1 class="auth__title" data-i18n="auth.title">Вход в аккаунт</h1>
@@ -409,7 +417,7 @@
                     </p>
                     <div id="registerMessage" class="auth__message"></div>
                 </div>
-            </div>
+            </div>              
         </div>
 
                 <div id="mainSection" class="hidden">
