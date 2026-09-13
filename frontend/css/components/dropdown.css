@@ -15,7 +15,7 @@
   border: 1px solid transparent;
   background: transparent;
   color: var(--color-text);
-  font-size: var(--fs-lg);
+  font-size: var(--fs-xl);
   font-weight: var(--fw-semibold);
   cursor: pointer;
   height: 52px;
@@ -33,8 +33,8 @@
 }
 
 .dropdown__trigger-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
@@ -46,8 +46,8 @@
 }
 
 .dropdown__chevron {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   transition: transform var(--dur-base) var(--ease-out);
 }
 
@@ -55,7 +55,7 @@
   position: absolute;
   top: calc(100% + var(--space-2));
   right: 0;
-  min-width: 300px;
+  min-width: 340px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -80,7 +80,7 @@
   background: transparent;
   border: 0;
   color: var(--color-text);
-  font-size: var(--fs-base);
+  font-size: var(--fs-lg);
   font-family: inherit;
   text-align: left;
   cursor: pointer;
@@ -92,8 +92,8 @@
 }
 
 .dropdown__item-icon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   color: var(--color-text-muted);
 }
@@ -103,8 +103,8 @@
 }
 
 .dropdown__item-caret {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   color: var(--color-text-muted);
 }
 

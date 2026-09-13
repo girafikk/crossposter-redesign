@@ -488,19 +488,20 @@
                                     </button>
                                 </div>
                                 <button class="dropdown__item" type="button" data-submenu-trigger>
-                                    <span>🎨</span>
+                                    <span data-theme-icon>☀️</span>
                                     <span class="dropdown__item-label" data-i18n="account.theme">Тема</span>
                                     <span class="dropdown__item-caret">▸</span>
                                 </button>
                                 <div class="dropdown__submenu" data-submenu hidden>
-                                    <button class="dropdown__item" type="button">
-                                       <span>☀️</span>
-                                       <span class="dropdown__item-label" data-i18n="account.theme_light">Светлая</span>
-                                       <span class="dropdown__check">✓</span>
+                                    <button class="dropdown__item" type="button" data-theme-option="light">
+                                        <span>☀️</span>
+                                        <span class="dropdown__item-label" data-i18n="account.theme_light">Светлая</span>
+                                        <span class="dropdown__check">✓</span>
                                     </button>
-                                    <button class="dropdown__item" type="button">
-                                       <span>🌙</span>
-                                       <span class="dropdown__item-label" data-i18n="account.theme_dark">Тёмная</span>
+                                    <button class="dropdown__item" type="button" data-theme-option="dark">
+                                        <span>🌙</span>
+                                        <span class="dropdown__item-label" data-i18n="account.theme_dark">Тёмная</span>
+                                        <span class="dropdown__check">✓</span>
                                     </button>
                                 </div>
                                 <hr class="dropdown__divider">
@@ -1004,9 +1005,9 @@
         // ========== HISTORY ==========
 
         function statusLabel(status) {
-            if (status === 'published') return '✅ опубликовано';
-            if (status === 'error') return '❌ ошибка';
-            return '⏳ ожидание';
+            if (status === 'published') return i18n.t('history.status_published');
+            if (status === 'error') return i18n.t('history.status_error');
+            return i18n.t('history.status_pending');
         }
 
         async function loadHistory() {
@@ -1030,7 +1031,7 @@
                     historyDiv.innerHTML = '<div class="text-center muted">' + i18n.t('history.empty') + '</div>';
                 }
             } catch (error) {
-                document.getElementById('historyList').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
+                document.getElementById('historyList').innerHTML = '<div class="alert alert-error">' + i18n.t('history.load_error') + '</div>';
             }
         }
 
@@ -1045,7 +1046,7 @@
                         <div class="post-item">
                             <div class="post-content">${escapeHtml(post.content).substring(0, 200)}${post.content.length > 200 ? '...' : ''}</div>
                             <div class="post-meta">
-                                <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
+                                <span>${new Date(post.created_at).toLocaleString(i18n.getLang() === 'ru' ? 'ru-RU' : 'en-US')}</span>
                                 <span class="status-badge">Telegram: ${statusLabel(post.telegram_status)}</span>
                                 <span class="status-badge">Discord: ${statusLabel(post.discord_status)}</span>
                             </div>
@@ -1055,7 +1056,7 @@
                     historyDiv.innerHTML = '<div class="text-center muted">' + i18n.t('history.empty') + '</div>';
                 }
             } catch (error) {
-                document.getElementById('historyListFull').innerHTML = '<div class="alert alert-error">Ошибка загрузки истории</div>';
+                document.getElementById('historyListFull').innerHTML = '<div class="alert alert-error">' + i18n.t('history.load_error') + '</div>';
             }
         }
         
@@ -1152,5 +1153,6 @@
     </script>
     <script src="js/dropdown.js"></script>
     <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
 </body>
 </html>

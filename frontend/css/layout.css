@@ -59,7 +59,7 @@
   position: fixed;
   top: 72px;
   left: 0;
-  width: 280px;
+  width: 340px;
   height: calc(100dvh - 72px);
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@
   padding: 0 var(--space-6);
   background: var(--brand-400);
   color: var(--color-text);
-  font-size: var(--fs-xl);
+  font-size: var(--fs-2xl);
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-tight);
   border-bottom: 1px solid var(--brand-500);
@@ -100,8 +100,8 @@
 .sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-3);
+  gap: var(--space-2);
+  padding: var(--space-4);
   flex: 1;
   overflow-y: auto;
 }
@@ -110,10 +110,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4);
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
-  font-size: var(--fs-base);
+  font-size: var(--fs-lg);
   font-weight: var(--fw-medium);
   cursor: pointer;
   text-decoration: none;
@@ -133,12 +133,12 @@
 }
 
 .sidebar__link-icon {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 /* ---------- Контент ---------- */
@@ -166,7 +166,7 @@
 
   .app__sidebar {
     top: 64px;
-    width: 260px;
+    width: 300px;
     height: calc(100dvh - 64px);
   }
 
@@ -357,9 +357,9 @@
    ============================================================ */
 
 .sidebar__group-title {
-  padding: var(--space-3) var(--space-3) var(--space-2);
-  margin-top: var(--space-3);
-  font-size: var(--fs-xs);
+  padding: var(--space-4) var(--space-3) var(--space-2);
+  margin-top: var(--space-4);
+  font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
   text-transform: uppercase;
   letter-spacing: var(--ls-caps);
@@ -368,14 +368,14 @@
 }
 
 .sidebar__link--sub {
-  padding-left: calc(var(--space-3) + 12px);
-  font-size: var(--fs-sm);
+  padding-left: calc(var(--space-4) + 14px);
+  font-size: var(--fs-base);
 }
 
 .sidebar__link--sub .sidebar__link-icon {
-  font-size: 14px;
-  width: 18px;
-  height: 18px;
+  font-size: 17px;
+  width: 22px;
+  height: 22px;
 }
 
 /* ============================================================

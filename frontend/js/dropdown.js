@@ -35,8 +35,9 @@
     root.querySelectorAll('[data-submenu-trigger]').forEach(subTrigger => {
       subTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        const submenu = subTrigger.parentElement.querySelector('[data-submenu]');
-        if (!submenu) return;
+        // Ищем СЛЕДУЮЩИЙ sibling — это именно его подменю
+        const submenu = subTrigger.nextElementSibling;
+        if (!submenu || !submenu.matches('[data-submenu]')) return;
 
         const wasHidden = submenu.hidden;
         root.querySelectorAll('[data-submenu]').forEach(sm => sm.hidden = true);

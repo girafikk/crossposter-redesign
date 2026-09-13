@@ -51,7 +51,11 @@
   "history": {
     "title": "Post history",
     "empty": "No posts yet. Create your first!",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "status_published": "✅ published",
+    "status_error": "❌ error",
+    "status_pending": "⏳ pending",
+    "load_error": "Failed to load history"
   },
   "telegram": {
     "title": "Telegram",
@@ -101,7 +105,9 @@
     "post_text_required": "Post text is required",
     "registration_success": "Registration successful",
     "fill_all_fields": "Please fill in all fields",
-    "connection_error": "Connection error"
+    "connection_error": "Connection error",
+    "user_not_found": "User not found",
+    "logout_error": "Logout error"
   }
   ,
   "common": {

@@ -51,7 +51,11 @@
   "history": {
     "title": "История постов",
     "empty": "Нет постов. Создайте первый!",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "status_published": "✅ опубликовано",
+    "status_error": "❌ ошибка",
+    "status_pending": "⏳ ожидание",
+    "load_error": "Ошибка загрузки истории"
   },
   "telegram": {
     "title": "Telegram",
@@ -101,7 +105,9 @@
     "post_text_required": "Текст поста обязателен",
     "registration_success": "Регистрация успешна",
     "fill_all_fields": "Заполните все поля",
-    "connection_error": "Ошибка соединения"
+    "connection_error": "Ошибка соединения",
+    "user_not_found": "Пользователь не найден",
+    "logout_error": "Ошибка выхода"
   }
   ,
   "common": {
