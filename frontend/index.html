@@ -975,14 +975,18 @@
                 messageDiv.innerHTML = '<div class="alert alert-error">Выберите хотя бы одну платформу</div>';
                 return;
             }
-
+            
             messageDiv.innerHTML = '<div class="alert"><div class="loading"></div> Отправка...</div>';
 
             try {
+                const platforms = [];
+                if (sendTelegram) platforms.push('telegram');
+                if (sendDiscord) platforms.push('discord');
+
                 const response = await fetch('/api/post', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content })
+                    body: JSON.stringify({ content, platforms })
                 });
                 const data = await response.json();
 
