@@ -404,10 +404,6 @@
 
                 <div id="registerForm" class="auth__form hidden">
                     <div class="auth__field">
-                        <label class="auth__label" for="registerName" data-i18n="auth.name">Имя</label>
-                        <input type="text" id="registerName" class="auth__input" placeholder="Ваше имя">
-                    </div>
-                    <div class="auth__field">
                         <label class="auth__label" for="registerEmail" data-i18n="auth.email">Email</label>
                         <input type="email" id="registerEmail" class="auth__input" placeholder="example@mail.com">
                     </div>
@@ -693,10 +689,6 @@
                             <span class="account-row__value" id="accountEmail">—</span>
                         </div>
                         <div class="account-row">
-                            <span class="account-row__label" data-i18n="account.name">Имя</span>
-                            <span class="account-row__value" id="accountName">—</span>
-                        </div>
-                        <div class="account-row">
                             <span class="account-row__label" data-i18n="account.user_id">ID пользователя</span>
                             <span class="account-row__value" id="accountUserId">—</span>
                         </div>
@@ -718,7 +710,7 @@
     <script>
         let userId = null;
         let currentUserEmail = '';
-        let currentUserName = '';        
+                
 
         function showRegister() {
             document.getElementById('loginForm').classList.add('hidden');
@@ -731,12 +723,11 @@
         }
 
         async function register() {
-            const name = document.getElementById('registerName').value.trim();
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const messageDiv = document.getElementById('registerMessage');
 
-            if (!name || !email || !password) {
+            if ( !email || !password) {
                 messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('server.fill_all_fields') + '</div>';
                 return;
             }
@@ -772,13 +763,13 @@
                 if (data.status === 'success') {
                     userId = data.data.user_id;
                     currentUserEmail = email;
-                    currentUserName = data.data.name || '';
+        
 
                     document.getElementById('authSection').classList.add('hidden');
                     document.getElementById('mainSection').classList.remove('hidden');
                     document.getElementById('accountEmail').textContent = email;
                     document.getElementById('accountUserId').textContent = userId;
-                    document.getElementById('accountName').textContent = currentUserName || '—';
+        
 
                     loadTelegramStatus();
                     loadDiscordStatus();
@@ -814,14 +805,14 @@
                 if (data.status === 'success') {
                     userId = data.data.user_id;
                     currentUserEmail = email;
-                    currentUserName = data.data.name || '';
+        
 
                     document.getElementById('authSection').classList.add('hidden');
                     document.getElementById('mainSection').classList.remove('hidden');
 
                     document.getElementById('accountEmail').textContent = email;
                     document.getElementById('accountUserId').textContent = userId;
-                    document.getElementById('accountName').textContent = currentUserName || '—';
+        
                    
                     loadTelegramStatus();
                     loadDiscordStatus();
@@ -865,7 +856,7 @@
             if (name === 'account') {
                 document.getElementById('accountEmail').textContent = currentUserEmail || '—';
                 document.getElementById('accountUserId').textContent = userId || '—';
-                document.getElementById('accountName').textContent = currentUserName || '—';
+        
             }
         }
            
@@ -1159,14 +1150,13 @@
 
                 userId = data.data.userId;
                 currentUserEmail = data.data.email;
-                currentUserName = data.data.name || '';               
+               
 
                 document.getElementById('authSection').classList.add('hidden');
                 document.getElementById('mainSection').classList.remove('hidden');
-                currentUserName = data.data.name || '';
+        
                 document.getElementById('accountEmail').textContent = data.data.email;
                 document.getElementById('accountUserId').textContent = data.data.userId;
-                document.getElementById('accountName').textContent = currentUserName || '—';
                 if (typeof loadTelegramStatus === 'function') loadTelegramStatus();
                 if (typeof loadDiscordStatus === 'function') loadDiscordStatus();
                 if (typeof loadHistory === 'function') loadHistory();

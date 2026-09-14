@@ -19,8 +19,8 @@
     "register_title": "Sign up",
     "register_subtitle": "Create a new account",
     "register": "Sign up",
-    "back_to_login": "Back to sign in",
-    "name": "Name"
+    "back_to_login": "Back to sign in"
+
   },
   "sidebar": {
     "home": "Home",
@@ -36,7 +36,6 @@
     "theme_dark": "Dark",
     "logout": "Log out",
     "email": "Email",
-    "name": "Name",
     "user_id": "User ID",
     "status": "Status",
     "status_active": "Active"

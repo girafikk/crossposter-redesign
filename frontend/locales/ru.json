@@ -19,8 +19,8 @@
     "register_title": "Регистрация",
     "register_subtitle": "Создайте новый аккаунт",
     "register": "Зарегистрироваться",
-    "back_to_login": "Вернуться ко входу",
-    "name": "Имя"
+    "back_to_login": "Вернуться ко входу"
+
   },
   "sidebar": {
     "home": "Главная",
@@ -36,7 +36,6 @@
     "theme_dark": "Тёмная",
     "logout": "Выйти",
     "email": "Email",
-    "name": "Имя",
     "user_id": "ID пользователя",
     "status": "Статус",
     "status_active": "Активен"
