@@ -19,7 +19,8 @@
     "register_title": "Sign up",
     "register_subtitle": "Create a new account",
     "register": "Sign up",
-    "back_to_login": "Back to sign in"
+    "back_to_login": "Back to sign in",
+    "name": "Name"
   },
   "sidebar": {
     "home": "Home",
@@ -55,7 +56,8 @@
     "status_published": "✅ published",
     "status_error": "❌ error",
     "status_pending": "⏳ pending",
-    "load_error": "Failed to load history"
+    "load_error": "Failed to load history",
+    "success": "success"
   },
   "telegram": {
     "title": "Telegram",
@@ -107,9 +109,19 @@
     "fill_all_fields": "Please fill in all fields",
     "connection_error": "Connection error",
     "user_not_found": "User not found",
-    "logout_error": "Logout error"
-  }
-  ,
+    "logout_error": "Logout error",
+    "logout_error": "Logout error",
+    "invalid_channel_link": "Invalid channel link format",
+    "unknown_error": "Unknown error",
+    "telegram_not_connected": "Telegram not connected",
+    "discord_not_connected": "Discord not connected"
+  },
+  "validation": {
+    "channel_link_required": "Enter channel link",
+    "channel_id_required": "Enter channel ID",
+    "post_text_required": "Enter post text",
+    "platform_required": "Select at least one platform"
+  },
   "common": {
    "close": "Close"
   }

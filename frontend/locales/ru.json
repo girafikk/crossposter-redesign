@@ -19,7 +19,8 @@
     "register_title": "Регистрация",
     "register_subtitle": "Создайте новый аккаунт",
     "register": "Зарегистрироваться",
-    "back_to_login": "Вернуться ко входу"
+    "back_to_login": "Вернуться ко входу",
+    "name": "Имя"
   },
   "sidebar": {
     "home": "Главная",
@@ -55,7 +56,8 @@
     "status_published": "✅ опубликовано",
     "status_error": "❌ ошибка",
     "status_pending": "⏳ ожидание",
-    "load_error": "Ошибка загрузки истории"
+    "load_error": "Ошибка загрузки истории",
+    "success": "успешно"
   },
   "telegram": {
     "title": "Telegram",
@@ -107,9 +109,19 @@
     "fill_all_fields": "Заполните все поля",
     "connection_error": "Ошибка соединения",
     "user_not_found": "Пользователь не найден",
-    "logout_error": "Ошибка выхода"
-  }
-  ,
+    "logout_error": "Ошибка выхода",
+    "logout_error": "Ошибка выхода",
+    "invalid_channel_link": "Неверный формат ссылки на канал",
+    "unknown_error": "Неизвестная ошибка",
+    "telegram_not_connected": "Telegram не подключен",
+    "discord_not_connected": "Discord не подключен"
+  },
+  "validation": {
+    "channel_link_required": "Введите ссылку на канал",
+    "channel_id_required": "Введите ID канала",
+    "post_text_required": "Введите текст поста",
+    "platform_required": "Выберите хотя бы одну платформу"
+  },
   "common": {
     "close": "Закрыть"
   }

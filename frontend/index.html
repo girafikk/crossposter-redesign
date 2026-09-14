@@ -404,6 +404,10 @@
 
                 <div id="registerForm" class="auth__form hidden">
                     <div class="auth__field">
+                        <label class="auth__label" for="registerName" data-i18n="auth.name">Имя</label>
+                        <input type="text" id="registerName" class="auth__input" placeholder="Ваше имя">
+                    </div>
+                    <div class="auth__field">
                         <label class="auth__label" for="registerEmail" data-i18n="auth.email">Email</label>
                         <input type="email" id="registerEmail" class="auth__input" placeholder="example@mail.com">
                     </div>
@@ -714,6 +718,7 @@
     <script>
         let userId = null;
         let currentUserEmail = '';
+        let currentUserName = '';        
 
         function showRegister() {
             document.getElementById('loginForm').classList.add('hidden');
@@ -726,11 +731,12 @@
         }
 
         async function register() {
+            const name = document.getElementById('registerName').value.trim();
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const messageDiv = document.getElementById('registerMessage');
 
-            if (!email || !password) {
+            if (!name || !email || !password) {
                 messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('server.fill_all_fields') + '</div>';
                 return;
             }
@@ -739,12 +745,12 @@
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({name, email, password })
                 });
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    messageDiv.innerHTML = '<div class="alert alert-success">Регистрация успешна! Выполняется вход...</div>';
+                    messageDiv.innerHTML = '<div class="alert alert-success">' + i18n.t('server.registration_success') + '</div>';
                     await autoLogin(email, password);
                 } else {
                     messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.tServer(data.message) + '</div>';
@@ -752,8 +758,8 @@
             } catch (error) {
                 messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('server.connection_error') + '</div>';
             }
-        }
-
+        }         
+            
         async function autoLogin(email, password) {
             try {
                 const response = await fetch('/api/login', {
@@ -766,20 +772,24 @@
                 if (data.status === 'success') {
                     userId = data.data.user_id;
                     currentUserEmail = email;
+                    currentUserName = data.data.name || '';
+
                     document.getElementById('authSection').classList.add('hidden');
                     document.getElementById('mainSection').classList.remove('hidden');
                     document.getElementById('accountEmail').textContent = email;
                     document.getElementById('accountUserId').textContent = userId;
+                    document.getElementById('accountName').textContent = currentUserName || '—';
+
                     loadTelegramStatus();
                     loadDiscordStatus();
                     loadHistory();
                     loadHistoryFull();
-                    showSection('home');
+                    if (typeof showSection === 'function') showSection('home');
                 } else {
-                    document.getElementById('loginMessage').innerHTML = '<div class="alert alert-error">' + i18n.tServer(data.message) + '</div>';
+                    document.getElementById('registerMessage').innerHTML = '<div class="alert alert-error">' + i18n.tServer(data.message) + '</div>';
                 }
             } catch (error) {
-                document.getElementById('loginMessage').innerHTML = '<div class="alert alert-error">' + i18n.t('server.connection_error') + '</div>';
+                document.getElementById('registerMessage').innerHTML = '<div class="alert alert-error">' + i18n.t('server.connection_error') + '</div>';
             }
         }
 
@@ -804,10 +814,15 @@
                 if (data.status === 'success') {
                     userId = data.data.user_id;
                     currentUserEmail = email;
+                    currentUserName = data.data.name || '';
+
                     document.getElementById('authSection').classList.add('hidden');
                     document.getElementById('mainSection').classList.remove('hidden');
+
                     document.getElementById('accountEmail').textContent = email;
                     document.getElementById('accountUserId').textContent = userId;
+                    document.getElementById('accountName').textContent = currentUserName || '—';
+                   
                     loadTelegramStatus();
                     loadDiscordStatus();
                     loadHistory();
@@ -850,7 +865,7 @@
             if (name === 'account') {
                 document.getElementById('accountEmail').textContent = currentUserEmail || '—';
                 document.getElementById('accountUserId').textContent = userId || '—';
-                document.getElementById('accountName').textContent = '—';
+                document.getElementById('accountName').textContent = currentUserName || '—';
             }
         }
            
@@ -878,7 +893,7 @@
             const messageDiv = document.getElementById('telegramMessage');
 
             if (!channelLink) {
-                messageDiv.innerHTML = '<div class="alert alert-error">Введите ссылку на канал</div>';
+                messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('validation.channel_link_required') + '</div>';
                 return;
             }
 
@@ -927,7 +942,7 @@
             const messageDiv = document.getElementById('discordMessage');
 
             if (!channelId) {
-                messageDiv.innerHTML = '<div class="alert alert-error">Введите ID канала</div>';
+                messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('validation.channel_id_required') + '</div>';
                 return;
             }
 
@@ -967,12 +982,12 @@
             const messageDiv = document.getElementById('postMessage');
 
             if (!content) {
-                messageDiv.innerHTML = '<div class="alert alert-error">Введите текст поста</div>';
+                messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('validation.post_text_required') + '</div>';
                 return;
             }
 
             if (!sendTelegram && !sendDiscord) {
-                messageDiv.innerHTML = '<div class="alert alert-error">Выберите хотя бы одну платформу</div>';
+                messageDiv.innerHTML = '<div class="alert alert-error">' + i18n.t('validation.platform_required') + '</div>';
                 return;
             }
             
@@ -993,14 +1008,14 @@
                 if (data.status === 'success') {
                     let results = '';
                     if (data.data.telegram && data.data.telegram.success) {
-                        results += '✅ Telegram: успешно<br>';
+                        results += '✅ Telegram: ' + i18n.t('post.success') + '<br>';
                     } else if (data.data.telegram && !data.data.telegram.success) {
-                        results += '❌ Telegram: ' + data.data.telegram.error + '<br>';
+                        results += '❌ Telegram: ' + i18n.tServer(data.data.telegram.error) + '<br>';
                     }
                     if (data.data.discord && data.data.discord.success) {
-                        results += '✅ Discord: успешно<br>';
+                        results += '✅ Discord: ' + i18n.t('post.success') + '<br>';
                     } else if (data.data.discord && !data.data.discord.success) {
-                        results += '❌ Discord: ' + data.data.discord.error + '<br>';
+                        results += '❌ Discord: ' + i18n.tServer(data.data.discord.error) + '<br>';
                     }
                     messageDiv.innerHTML = '<div class="alert">' + results + '</div>';
                     document.getElementById('postContent').value = '';
@@ -1144,12 +1159,14 @@
 
                 userId = data.data.userId;
                 currentUserEmail = data.data.email;
+                currentUserName = data.data.name || '';               
 
                 document.getElementById('authSection').classList.add('hidden');
                 document.getElementById('mainSection').classList.remove('hidden');
+                currentUserName = data.data.name || '';
                 document.getElementById('accountEmail').textContent = data.data.email;
                 document.getElementById('accountUserId').textContent = data.data.userId;
-
+                document.getElementById('accountName').textContent = currentUserName || '—';
                 if (typeof loadTelegramStatus === 'function') loadTelegramStatus();
                 if (typeof loadDiscordStatus === 'function') loadDiscordStatus();
                 if (typeof loadHistory === 'function') loadHistory();

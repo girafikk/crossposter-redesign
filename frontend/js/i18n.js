@@ -103,6 +103,11 @@
       const historyListFull = document.getElementById('historyListFull');
       if (historyListFull) window.loadHistoryFull();
     }
+    // ←←← ДОБАВЛЯЕМ: очистка сообщений при смене языка
+    ['postMessage', 'telegramMessage', 'discordMessage', 'loginMessage', 'registerMessage'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '';
+    });
   }
   // Карта: русский текст сервера → ключ в словаре
   const SERVER_MAP = {
@@ -124,6 +129,10 @@
     'Регистрация успешна': 'server.registration_success',
     'Заполните все поля': 'server.fill_all_fields',
     'Ошибка соединения': 'server.connection_error',
+    'Неверный формат ссылки на канал': 'server.invalid_channel_link',
+    'Неизвестная ошибка': 'server.unknown_error',
+    'Telegram не подключен': 'server.telegram_not_connected',
+    'Discord не подключен': 'server.discord_not_connected',
   };
 
   // Перевод серверного сообщения (по русскому тексту)
